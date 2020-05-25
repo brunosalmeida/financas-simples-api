@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FS.Infrastructure
+﻿namespace FS.Infrastructure
 {
     public class Class1
     {
