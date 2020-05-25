@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FS.Domain.Model
 {
@@ -19,10 +17,10 @@ namespace FS.Domain.Model
             UpdatedOn = updatedOn;
         }
 
-
         public Guid Id { get; private set; }
         public DateTime CreatedOn { get; private set; }
         public DateTime? UpdatedOn { get; private set; }
+
         public void SetUpdateDate()
         {
             this.UpdatedOn = DateTime.UtcNow;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FS.Utils
+﻿namespace FS.Utils
 {
     public class Class1
     {

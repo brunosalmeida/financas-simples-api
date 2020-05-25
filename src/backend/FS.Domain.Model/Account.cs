@@ -12,6 +12,7 @@ namespace FS.Domain.Model
             User = user;
             Expenses = new List<Expense>().AsEnumerable();
         }
+
         public Account(Guid id, User user, IEnumerable<Expense> expenses, DateTime createdOn, DateTime? updatedOn)
             : base(id, createdOn, updatedOn)
         {

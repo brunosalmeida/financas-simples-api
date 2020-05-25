@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FS.Client
+﻿namespace FS.Client
 {
     public class Class1
     {
