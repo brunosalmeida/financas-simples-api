@@ -36,7 +36,8 @@ namespace FS.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Accounts");
                 });
@@ -47,29 +48,27 @@ namespace FS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("AccountId")
+                    b.Property<Guid>("AccountId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("AccountId")
+                        .HasAnnotation("Npgsql:IndexInclude", new[] { "Id" });
 
                     b.ToTable("Expenses");
                 });
@@ -84,13 +83,19 @@ namespace FS.Infrastructure.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Password")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(20);
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("timestamp without time zone");
@@ -103,21 +108,17 @@ namespace FS.Infrastructure.Migrations
             modelBuilder.Entity("FS.Infrastructure.Account", b =>
                 {
                     b.HasOne("FS.Infrastructure.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Account")
+                        .HasForeignKey("FS.Infrastructure.Account", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("FS.Infrastructure.Expense", b =>
                 {
-                    b.HasOne("FS.Infrastructure.Account", null)
+                    b.HasOne("FS.Infrastructure.Account", "Account")
                         .WithMany("Expenses")
-                        .HasForeignKey("AccountId");
-
-                    b.HasOne("FS.Infrastructure.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
