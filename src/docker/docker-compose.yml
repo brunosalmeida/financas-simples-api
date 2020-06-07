@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "Postgres@2020"
+    ports:
+      - "5432:5432"
+    
