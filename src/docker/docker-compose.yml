@@ -7,4 +7,23 @@ services:
       POSTGRES_PASSWORD: "Postgres@2020"
     ports:
       - "5432:5432"
+    volumes:
+      -  /bruno/source/databases/postgresql:/var/lib/postgresql/data 
+    networks:
+      - fs_network
     
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "bruno@financasimples.com"
+      PGADMIN_DEFAULT_PASSWORD: "Postgres@2020"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+    networks:
+      - fs_network
+    
+networks: 
+  fs_network:
+    driver: bridge

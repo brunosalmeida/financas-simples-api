@@ -12,5 +12,7 @@ namespace FS.Infrastructure
         public string Email { get; private set; }
 
         public string Password { get; private set; }
+
+        public Account Account { get; set; }
     }
 }

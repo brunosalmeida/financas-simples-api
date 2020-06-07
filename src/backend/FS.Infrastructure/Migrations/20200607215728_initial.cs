@@ -14,9 +14,9 @@ namespace FS.Infrastructure.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     UpdatedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    Email = table.Column<string>(maxLength: 100, nullable: false),
+                    Password = table.Column<string>(maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,10 +50,9 @@ namespace FS.Infrastructure.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     UpdatedOn = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<Guid>(nullable: false),
+                    AccountId = table.Column<Guid>(nullable: false),
                     Value = table.Column<decimal>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    AccountId = table.Column<Guid>(nullable: true)
+                    Description = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,29 +62,20 @@ namespace FS.Infrastructure.Migrations
                         column: x => x.AccountId,
                         principalTable: "Accounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Expenses_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_UserId",
                 table: "Accounts",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Expenses_AccountId",
                 table: "Expenses",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Expenses_UserId",
-                table: "Expenses",
-                column: "UserId");
+                column: "AccountId")
+                .Annotation("Npgsql:IndexInclude", new[] { "Id" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
