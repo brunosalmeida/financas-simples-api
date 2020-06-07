@@ -41,13 +41,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-domain", "1-domain", "{A6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Domain.Model", "src\backend\FS.Domain.Model\FS.Domain.Model.csproj", "{5461B8AB-2BC0-4C20-BABF-66A8224E97E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Domain", "src\backend\FS.Domain\FS.Domain.csproj", "{D68AB854-FE81-4F24-BD10-76F15FCEFD07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Domain.Core", "src\backend\FS.Domain\FS.Domain.Core.csproj", "{D68AB854-FE81-4F24-BD10-76F15FCEFD07}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{8047A980-E9EF-4D30-8D6E-53B16BEF508F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.Domain.Test", "test\FS.Domain.Test\FS.Domain.Test.csproj", "{0CC34A05-5EFE-4EB0-91CC-30514B4527A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Domain.Core.Test", "test\FS.Domain.Test\FS.Domain.Core.Test.csproj", "{0CC34A05-5EFE-4EB0-91CC-30514B4527A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS.Domain.Model.Test", "test\FS.Domain.Model.Test\FS.Domain.Model.Test.csproj", "{754DB609-3632-4F85-B491-80F71BCBBBDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Domain.Model.Test", "test\FS.Domain.Model.Test\FS.Domain.Model.Test.csproj", "{754DB609-3632-4F85-B491-80F71BCBBBDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
