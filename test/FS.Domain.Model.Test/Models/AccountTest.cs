@@ -6,7 +6,7 @@ namespace FS.Domain.Model.Test
     public class AccountTest
     {
         [TestMethod]
-        public void AddNewDeposit_ReturnNewBalance()
+        public void AddNewDeposit_ShouldReturnsNewBalance()
         {
             var account = new Account(new User("test", "test@email.com", "12345"));
             account.SetExpense(new Expense(100, "new deposit"));
@@ -17,7 +17,7 @@ namespace FS.Domain.Model.Test
         }
 
         [TestMethod]
-        public void AddNewExpense_ReturnNewBalance()
+        public void AddNewExpense_ShouldReturnsNewBalance()
         {
             var account = new Account(new User("test", "test@email.com", "12345"));
             account.SetExpense(new Expense(100, "new deposit"));
@@ -29,7 +29,7 @@ namespace FS.Domain.Model.Test
         }
 
         [TestMethod]
-        public void CreateNewAccount_ReturnNewAccountWithZeroValueAsBalance()
+        public void CreateNewAccount_ShouldReturnsNewAccountWithZeroValueAsBalance()
         {
             var account = new Account(new User("test", "test@email.com", "12345"));
             var balance = account.GetBalance();

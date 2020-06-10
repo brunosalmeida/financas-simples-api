@@ -6,7 +6,7 @@ namespace FS.Domain.Model.Test
     public class UserTest
     {
         [TestMethod]
-        public void UpdateName_ReturnNewUserWithNewName()
+        public void UpdateName_ShouldReturnsNewUserWithNewName()
         {
             var user = new User("TestUser", "test@email.com", "12345");
             user.SetName("TestUser2");
@@ -15,7 +15,7 @@ namespace FS.Domain.Model.Test
         }
 
         [TestMethod]
-        public void UpdateEmail_ReturnNewUserWithNewEmail()
+        public void UpdateEmail_ShouldReturnsNewUserWithNewEmail()
         {
             var user = new User("TestUser", "test2@email.com", "12345");
             user.SetEmail("test2@email.com");
@@ -24,7 +24,7 @@ namespace FS.Domain.Model.Test
         }
 
         [TestMethod]
-        public void UpdatePassword_ReturnNewUserWithNewName()
+        public void UpdatePassword_ShouldReturnsNewUserWithNewName()
         {
             var user = new User("TestUser", "test@email.com", "12345");
             user.SetPassword("999999");
