@@ -4,6 +4,8 @@
     {
         public static FS.Domain.Model.User MapFrom(User entity)
         {
+            if (entity is null) return null;
+
             return new FS.Domain.Model.User(
                 entity.Id,
                 entity.Name,

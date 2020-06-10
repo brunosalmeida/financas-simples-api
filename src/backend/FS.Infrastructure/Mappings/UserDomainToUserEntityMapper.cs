@@ -4,6 +4,8 @@
     {
         public static User MapFrom(FS.Domain.Model.User model)
         {
+            if (model is null) return null;
+
             return new User()
             {
                 Id = model.Id,

@@ -7,6 +7,8 @@ namespace FS.Infrastructure.Mappings
     {
         public static Expense MapFrom(FS.Domain.Model.Expense model)
         {
+            if (model is null) return null;
+
             return new Expense()
             {
                 Id = model.Id,
@@ -17,8 +19,10 @@ namespace FS.Infrastructure.Mappings
             };
         }
 
-        public static IEnumerable<Expense> MapFrom(IEnumerable<FS.Domain.Model.Expense> models)
+        public static IList<Expense> MapFrom(IEnumerable<FS.Domain.Model.Expense> models)
         {
+            if (models is null) return null;
+
             return models.Select(m => new Expense()
             {
                 Id = m.Id,
@@ -26,7 +30,7 @@ namespace FS.Infrastructure.Mappings
                 Description = m.Description,
                 CreatedOn = m.CreatedOn,
                 UpdatedOn = m.UpdatedOn.GetValueOrDefault()
-            });
+            }).ToList();
         }
     }
 }
