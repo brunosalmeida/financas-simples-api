@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{3C09D667-4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Utils.Test", "test\FS.Utils.Test\FS.Utils.Test.csproj", "{6C5ED5F0-2289-444E-91DB-79870744DCD0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-infrasctruture", "2-infrasctruture", "{4188C079-65C5-407A-89E4-90FD53F32E61}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-data", "2-data", "{4188C079-65C5-407A-89E4-90FD53F32E61}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FS.Infrastructure", "src\backend\FS.Infrastructure\FS.Infrastructure.csproj", "{646B964D-5612-43EB-A54F-97E932703FB0}"
 EndProject
