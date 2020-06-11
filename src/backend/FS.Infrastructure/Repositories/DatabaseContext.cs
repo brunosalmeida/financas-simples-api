@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FS.Domain;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace FS.Infrastructure.Repositories
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : DbContext, IUnitOfWork
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
@@ -13,14 +15,17 @@ namespace FS.Infrastructure.Repositories
         public DbSet<User> Users { get; set; }
         public DbSet<Expense> Expenses { get; set; }
 
+        public async Task<bool> Commit()
+        {
+            return await base.SaveChangesAsync() > 0;
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             //Share configuration
             modelBuilder.Entity<Account>().Property(a => a.CreatedOn).IsRequired();
             modelBuilder.Entity<User>().Property(a => a.CreatedOn).IsRequired();
             modelBuilder.Entity<Account>().Property(a => a.CreatedOn).IsRequired();
-
 
             //Account
             modelBuilder.Entity<Account>().ToTable("Accounts");
