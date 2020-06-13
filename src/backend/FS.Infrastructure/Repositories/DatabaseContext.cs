@@ -1,24 +1,21 @@
-﻿using FS.Domain;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace FS.Infrastructure.Repositories
 {
-    public class DatabaseContext : DbContext, IUnitOfWork
+    public class DatabaseContext : DbContext
     {
+        public DatabaseContext()
+        {
+        }
+
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Expense> Expenses { get; set; }
-
-        public async Task<bool> Commit()
-        {
-            return await base.SaveChangesAsync() > 0;
-        }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Expense> Expenses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

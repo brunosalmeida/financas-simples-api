@@ -1,8 +1,6 @@
-﻿using FS.Domain;
-using FS.Domain.Core;
+﻿using FS.Domain.Core;
 using FS.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +18,14 @@ namespace FS.Infrastructure.Repositories
             this.context = context;
         }
 
-        public IUnitOfWork UnitOfWork => this.context;
-
         public async Task Delete(Guid id)
         {
             var entity = await this.context.Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
             this.context.Users.Remove(entity);
+
+            await this.context.SaveChangesAsync();
+
+            await Task.CompletedTask;
         }
 
         public void Dispose()
@@ -52,18 +52,21 @@ namespace FS.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task Insert(Domain.Model.User entity)
+        public async Task Insert(Domain.Model.User entity)
         {
             this.context.Users.Add(UserDomainToUserEntityMapper.MapFrom(entity));
-            return Task.CompletedTask;
+
+            await this.context.SaveChangesAsync();
+
+            await Task.CompletedTask;
         }
 
-        public Task Update(Guid id, Domain.Model.User model)
+        public async Task Update(Guid id, Domain.Model.User model)
         {
-            var entity =UserDomainToUserEntityMapper.MapFrom(model);
+            var entity = UserDomainToUserEntityMapper.MapFrom(model);
             var user = this.context.Users.FirstOrDefault(u => u.Id.Equals(id));
 
-            if(user != null)
+            if (user != null)
             {
                 user.Name = entity.Name;
                 user.Email = entity.Email;
@@ -74,7 +77,9 @@ namespace FS.Infrastructure.Repositories
                 this.context.Users.Update(user);
             }
 
-            return Task.CompletedTask;
+            await this.context.SaveChangesAsync();
+
+            await Task.CompletedTask;
         }
     }
 }
