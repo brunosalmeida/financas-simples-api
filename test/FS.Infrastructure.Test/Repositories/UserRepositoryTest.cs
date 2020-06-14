@@ -1,10 +1,13 @@
 ﻿using FizzWare.NBuilder;
+using FS.Infrastructure.Mappings;
 using FS.Infrastructure.Repositories;
-using FS.Infrastructure.Test.Setup;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MockQueryable.Moq;
 using Moq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,19 +18,19 @@ namespace FS.Infrastructure.Test.Repositories
     {
         private Mock<DatabaseContext> contextMock;
         private Mock<DbSet<User>> dbSetUserMock;
+        private IEnumerable<User> entities;
 
         [TestInitialize]
         public void Initialize()
         {
-            var entities = Builder<User>
+            entities = Builder<User>
                 .CreateListOfSize(5)
                 .All()
                 .With(u => u.Id = Guid.NewGuid())
                 .With(u => u.CreatedOn = DateTime.UtcNow)
                 .Build();
 
-            this.dbSetUserMock = MockDbSetFactory.Create(entities);
-
+            this.dbSetUserMock = entities.AsQueryable().BuildMockDbSet();
 
             this.contextMock = new Mock<DatabaseContext>();
             this.contextMock.Setup(c => c.Users).Returns(this.dbSetUserMock.Object);
@@ -48,6 +51,18 @@ namespace FS.Infrastructure.Test.Repositories
 
             this.dbSetUserMock.Verify(u => u.Add(It.IsAny<User>()), Times.Once);
             this.contextMock.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetUserWithValidId_ShouldReturns()
+        {
+            var id = entities.ElementAt(0).Id;
+            var expected = UserEntityToUserDomainMapper.MapFrom(entities.ElementAt(0));
+
+            var repository = new UserRepository(contextMock.Object);
+            var result = await repository.Get(id);
+
+            Assert.AreEqual(expected.Id, result.Id);
         }
     }
 }

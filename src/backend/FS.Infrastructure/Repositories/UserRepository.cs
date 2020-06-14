@@ -35,7 +35,7 @@ namespace FS.Infrastructure.Repositories
 
         public async Task<Domain.Model.User> Get(Guid id)
         {
-            var entity = await this.context.Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
+            var entity = await this.context.Users.Where(u => u.Id.Equals(id)).FirstOrDefaultAsync();
 
             return UserEntityToUserDomainMapper.MapFrom(entity);
         }
