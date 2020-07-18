@@ -1,7 +1,8 @@
 ﻿using FizzWare.NBuilder;
-using FS.Infrastructure.Mappings;
-using FS.Infrastructure.Repositories;
-using FS.Infrastructure.Test.Setup;
+using FS.Data.Entities;
+using FS.Data.Mappings;
+using FS.Data.Repositories;
+using FS.Data.Test.Setup;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MockQueryable.Moq;
@@ -12,7 +13,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FS.Infrastructure.Test.Repositories
+namespace FS.Data.Test.Repositories
 {
     [TestClass]
     public class UserRepositoryTest

@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FS.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace FS.Infrastructure.Repositories
+namespace FS.Data.Repositories
 {
     public class DatabaseContext : DbContext
     {

@@ -1,8 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using FS.Infrastructure.Mappings;
+using FS.Data.Mappings;
+using FS.Data.Entities;
 
-namespace FS.Infrastructure.Test.Mappings
+namespace FS.Data.Test.Mappings
 {
     [TestClass]
     public class UserEntityToUserModelMapperTest

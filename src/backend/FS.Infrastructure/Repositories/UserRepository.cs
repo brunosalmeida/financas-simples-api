@@ -1,5 +1,5 @@
-﻿using FS.Domain.Core;
-using FS.Infrastructure.Mappings;
+﻿using FS.Domain.Core.Interfaces;
+using FS.Data.Mappings;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace FS.Infrastructure.Repositories
+namespace FS.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -82,4 +82,5 @@ namespace FS.Infrastructure.Repositories
             await Task.CompletedTask;
         }
     }
+   
 }

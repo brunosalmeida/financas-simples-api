@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FS.Domain
+namespace FS.Domain.Core.Interfaces
 {
     public interface IUnitOfWork
     {

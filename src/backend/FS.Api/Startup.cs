@@ -1,4 +1,4 @@
-using FS.Infrastructure.Repositories;
+using FS.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\backend\FS.Domain.Model\FS.Domain.Model.csproj" />
-    <ProjectReference Include="..\..\src\backend\FS.Infrastructure\FS.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\backend\FS.Infrastructure\FS.Data.csproj" />
   </ItemGroup>
 
 </Project>

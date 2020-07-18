@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FS.Infrastructure.Repositories
+namespace FS.Data.Repositories
 {
     public interface IUnitOfWork
     {

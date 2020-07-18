@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FS.Infrastructure
+namespace FS.Data.Entities
 {
     public class Account : Entity
     {

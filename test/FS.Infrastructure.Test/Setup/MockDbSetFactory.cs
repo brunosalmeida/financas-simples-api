@@ -3,7 +3,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FS.Infrastructure.Test.Setup
+namespace FS.Data.Test.Setup
 {
     internal static class MockDbSetFactory
     {
