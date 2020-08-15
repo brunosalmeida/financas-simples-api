@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FS.Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200607215728_initial")]
-    partial class initial
+    [Migration("20200815192039_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace FS.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("FS.Data.Account", b =>
+            modelBuilder.Entity("FS.Data.Entities.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,7 +44,7 @@ namespace FS.Data.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("FS.Data.Expense", b =>
+            modelBuilder.Entity("FS.Data.Entities.Expense", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,7 +75,7 @@ namespace FS.Data.Migrations
                     b.ToTable("Expenses");
                 });
 
-            modelBuilder.Entity("FS.Data.User", b =>
+            modelBuilder.Entity("FS.Data.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -107,18 +107,18 @@ namespace FS.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("FS.Data.Account", b =>
+            modelBuilder.Entity("FS.Data.Entities.Account", b =>
                 {
-                    b.HasOne("FS.Data.User", "User")
+                    b.HasOne("FS.Data.Entities.User", "User")
                         .WithOne("Account")
-                        .HasForeignKey("FS.Data.Account", "UserId")
+                        .HasForeignKey("FS.Data.Entities.Account", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FS.Data.Expense", b =>
+            modelBuilder.Entity("FS.Data.Entities.Expense", b =>
                 {
-                    b.HasOne("FS.Data.Account", "Account")
+                    b.HasOne("FS.Data.Entities.Account", "Account")
                         .WithMany("Expenses")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)

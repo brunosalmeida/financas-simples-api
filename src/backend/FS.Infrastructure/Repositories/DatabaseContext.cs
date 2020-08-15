@@ -1,14 +1,12 @@
-﻿using FS.Data.Entities;
+﻿using System.Configuration;
+using FS.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace FS.Data.Repositories
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext()
-        {
-        }
-
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
         {
@@ -17,7 +15,6 @@ namespace FS.Data.Repositories
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Expense> Expenses { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Share configuration
@@ -62,6 +59,19 @@ namespace FS.Data.Repositories
             modelBuilder.Entity<Expense>()
                 .HasIndex(e => e.AccountId)
                 .IncludeProperties(e => e.Id);
+        }
+    }
+    
+    public class AppDbContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
+    {
+        private readonly string connection =
+            "User ID =postgres;Password=Postgres@2020;Server=localhost;Port=5432;Database=fs_service; Integrated Security=true;Pooling=true;";
+        public DatabaseContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
+            optionsBuilder.UseNpgsql(connection);
+
+            return new DatabaseContext(optionsBuilder.Options);
         }
     }
 }
