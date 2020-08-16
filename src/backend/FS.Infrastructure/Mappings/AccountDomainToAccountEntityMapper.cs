@@ -1,4 +1,6 @@
-﻿namespace FS.Infrastructure.Mappings
+﻿using FS.Data.Entities;
+
+namespace FS.Data.Mappings
 {
     public class AccountDomainToAccountEntityMapper
     {

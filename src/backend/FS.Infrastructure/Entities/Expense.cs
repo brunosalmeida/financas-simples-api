@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FS.Infrastructure
+namespace FS.Data.Entities
 {
     public class Expense : Entity
     {        

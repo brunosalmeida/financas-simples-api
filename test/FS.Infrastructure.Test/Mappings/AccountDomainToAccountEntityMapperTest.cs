@@ -1,9 +1,10 @@
-﻿using FS.Infrastructure.Mappings;
+﻿using FS.Data.Entities;
+using FS.Data.Mappings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-namespace FS.Infrastructure.Test.Mappings
+namespace FS.Data.Test.Mappings
 {
     [TestClass]
     public class AccountDomainToAccountEntityMapperTest

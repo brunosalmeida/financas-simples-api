@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using FS.Domain.Model;
 
-namespace FS.Domain
+namespace FS.Domain.Core.Interfaces
 {
     public interface IRepository<T> where T : class
     {
         Task<T> Get(Guid id);
-
-        Task<IEnumerable<T>> GetAll();
-
-        Task<IEnumerable<T>> GetAll(Func<Expression, IEnumerable<T>> action);
 
         Task Insert(T entity);
 

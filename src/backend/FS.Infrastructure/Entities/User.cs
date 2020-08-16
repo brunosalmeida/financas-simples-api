@@ -1,9 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FS.Infrastructure
+﻿namespace FS.Data.Entities
 {
     public class User : Entity
     {

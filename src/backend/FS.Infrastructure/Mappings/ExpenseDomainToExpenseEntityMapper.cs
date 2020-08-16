@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using FS.Data.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace FS.Infrastructure.Mappings
+namespace FS.Data.Mappings
 {
     public class ExpenseDomainToExpenseEntityMapper
     {
