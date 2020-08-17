@@ -2,7 +2,7 @@
 
 namespace FS.Data.Mappings
 {
-    public class AccountDomainToAccountEntityMapper
+    public static class AccountDomainToAccountEntityMapper
     {
         public static Account MapFrom(FS.Domain.Model.Account model)
         {

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace FS.Data.Mappings
 {
-    public class ExpenseDomainToExpenseEntityMapper
+    public static class ExpenseDomainToExpenseEntityMapper
     {
         public static Expense MapFrom(FS.Domain.Model.Expense model)
         {

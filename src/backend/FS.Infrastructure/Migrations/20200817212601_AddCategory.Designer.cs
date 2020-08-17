@@ -3,15 +3,17 @@ using System;
 using FS.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FS.Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200817212601_AddCategory")]
+    partial class AddCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,10 +74,6 @@ namespace FS.Data.Migrations
 
                     b.HasIndex("AccountId")
                         .HasAnnotation("Npgsql:IndexInclude", new[] { "Id" });
-
-                    b.HasIndex("Category");
-
-                    b.HasIndex("CreatedOn");
 
                     b.ToTable("Expenses");
                 });
