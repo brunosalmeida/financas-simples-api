@@ -56,20 +56,27 @@ namespace FS.Data.Repositories
             modelBuilder.Entity<Expense>().Property(e => e.Value).IsRequired();
             modelBuilder.Entity<Expense>().Property(e => e.Description).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Expense>().HasOne(e => e.Account).WithMany(e => e.Expenses);
+            modelBuilder.Entity<Expense>().Property(e => e.Category).IsRequired();
             modelBuilder.Entity<Expense>()
                 .HasIndex(e => e.AccountId)
                 .IncludeProperties(e => e.Id);
+            modelBuilder.Entity<Expense>()
+                .HasIndex(e => e.Category);
+            modelBuilder.Entity<Expense>()
+                .HasIndex(e => e.CreatedOn);
+            
         }
     }
     
     public class AppDbContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
     {
-        private readonly string connection =
-            "User ID =postgres;Password=Postgres@2020;Server=localhost;Port=5432;Database=fs_service; Integrated Security=true;Pooling=true;";
+        private const string Connection = "User ID =postgres;Password=Postgres@2020;Server=localhost;Port=5432;Database=fs_service;" +
+                                          "Integrated Security=true;Pooling=true;";
+
         public DatabaseContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
-            optionsBuilder.UseNpgsql(connection);
+            optionsBuilder.UseNpgsql(Connection);
 
             return new DatabaseContext(optionsBuilder.Options);
         }

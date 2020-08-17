@@ -2,7 +2,7 @@
 
 namespace FS.Data.Mappings
 {
-    public class UserDomainToUserEntityMapper
+    public static class UserDomainToUserEntityMapper
     {
         public static User MapFrom(FS.Domain.Model.User model)
         {
