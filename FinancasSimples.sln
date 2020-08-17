@@ -5,11 +5,6 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{512B9AB9-C0CA-4F0C-A683-0955296F02A6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobile", "mobile", "{F8607B7A-0433-4F71-B447-60049D6E1E9A}"
-ProjectSection(SolutionItems) = preProject
-	src\mobile\readme.txt = src\mobile\readme.txt
-EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0-presentation", "0-presentation", "{FDB07EB7-06DD-4072-8BF1-AD2C3B2531DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-utils", "3-utils", "{85AD477D-F8BE-4E02-B85E-1D8898E12C96}"
