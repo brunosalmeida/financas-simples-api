@@ -6,6 +6,15 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
+    <Compile Remove="FS.Dto\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="FS.Dto\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="FS.Dto\**" />
   </ItemGroup>
 
 </Project>

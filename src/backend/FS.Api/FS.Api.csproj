@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="8.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -13,7 +15,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FS.DataObject\FS.DataObject.csproj" />
+    <ProjectReference Include="..\FS.Dto.Old\FS.Dto.Old.csproj" />
+    <ProjectReference Include="..\FS.Dto\FS.Dto.csproj" />
     <ProjectReference Include="..\FS.Infrastructure\FS.Data.csproj" />
+    <ProjectReference Include="..\FS.Utils\FS.Dto\FS.Dto.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Handlers" />
+    <Folder Include="Commands\Resquest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="WeatherForecast.cs" />
   </ItemGroup>
 
 

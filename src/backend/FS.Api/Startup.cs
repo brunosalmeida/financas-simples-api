@@ -1,5 +1,6 @@
 using FS.Data.Repositories;
 using FS.Domain.Core.Interfaces;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -22,10 +23,13 @@ namespace FS.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<DatabaseContext>(opt => 
                     opt.UseNpgsql(Configuration.GetConnectionString("DatabaseConnection")));
 
+            services.AddMediatR(typeof(Startup));
+            
             services.AddTransient<IUserRepository, UserRepository>();
             
             services.AddControllers();
