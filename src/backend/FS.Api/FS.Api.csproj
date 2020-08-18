@@ -16,10 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FS.DataObject\FS.DataObject.csproj" />
-    <ProjectReference Include="..\FS.Dto.Old\FS.Dto.Old.csproj" />
-    <ProjectReference Include="..\FS.Dto\FS.Dto.csproj" />
     <ProjectReference Include="..\FS.Infrastructure\FS.Data.csproj" />
-    <ProjectReference Include="..\FS.Utils\FS.Dto\FS.Dto.csproj" />
   </ItemGroup>
 
   <ItemGroup>
