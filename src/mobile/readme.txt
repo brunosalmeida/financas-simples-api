@@ -1,1 +1,0 @@
-This directory has the purpose to store android app project. And In the future iOS project as well.

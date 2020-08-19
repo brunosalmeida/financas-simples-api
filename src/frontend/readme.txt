@@ -1,1 +1,0 @@
-This directory has the purpose to store react application.
