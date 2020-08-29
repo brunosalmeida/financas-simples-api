@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FS.Api.Queries.Request
 {
-    public class AuthUserQuery : IRequest<Guid>
+    public class AuthUserQuery : IRequest<string>
     {
         public AuthUserQuery(string username, string password)
         {

@@ -9,12 +9,12 @@ namespace FS.Api.Controllers
 {
     [ApiController]
     [Route("v1")]
-    public class Authentication : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;
 
-        public Authentication(IMediator mediator, ILogger<UserController> logger)
+        public AuthenticationController(IMediator mediator, ILogger<UserController> logger)
         {
             _mediator = mediator;
             _logger = logger;
@@ -26,7 +26,7 @@ namespace FS.Api.Controllers
             var auth = new AuthUserQuery(username, password);
             var result = await _mediator.Send(auth);
 
-            if (result == Guid.Empty)
+            if (string.IsNullOrEmpty(result))
                 return NotFound("Invalid username or password");
 
             return Ok(result);
