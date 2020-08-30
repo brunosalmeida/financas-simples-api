@@ -4,9 +4,11 @@ using System;
 using System.Threading.Tasks;
 using FS.Api.Queries.Request;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FS.Api.Controllers
 {
+    [Authorize]   
     [ApiController]
     [Route("v1")]
     public class UserController : ControllerBase

@@ -9,6 +9,6 @@ namespace FS.Domain.Core.Interfaces
 {
     public interface IUserRepository : IRepository<User>, IDisposable
     {
-        
+        Task<Guid> GetUserByUsernameAndPassword(string name, string password);
     }
 }

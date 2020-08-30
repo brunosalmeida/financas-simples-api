@@ -32,6 +32,14 @@ namespace FS.Data.Repositories
             this._context.Dispose();
         }
 
+        public async Task<Guid> GetUserByUsernameAndPassword(string email, string password)
+        {
+            var user = await this._context.Users.Where(u => u.Email == email && u.Password.Equals(password))
+                .FirstOrDefaultAsync();
+
+            return user?.Id ?? Guid.Empty;
+        }
+
         public async Task<Domain.Model.User> Get(Guid id)
         {
             var entity = await this._context.Users.Where(u => u.Id.Equals(id)).FirstOrDefaultAsync();
