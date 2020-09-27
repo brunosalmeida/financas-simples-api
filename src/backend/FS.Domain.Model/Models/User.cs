@@ -4,6 +4,13 @@ namespace FS.Domain.Model
 {
     public class User : Base
     {
+        public User(Guid id, string name, string email):base(id)
+        {
+           
+            Name = name;
+            Email = email;  
+        }
+        
         public User(string name, string email, string password)
             : base()
         {

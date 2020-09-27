@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\Handlers" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="WeatherForecast.cs" />
   </ItemGroup>
 

@@ -16,6 +16,11 @@ namespace FS.Domain.Model
             CreatedOn = createdOn;
             UpdatedOn = updatedOn;
         }
+        
+        protected Base(Guid id)
+        {
+            Id = id;
+        }
 
         public Guid Id { get; private set; }
         public DateTime CreatedOn { get; private set; }

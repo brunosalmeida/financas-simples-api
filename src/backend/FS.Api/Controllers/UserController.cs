@@ -46,5 +46,15 @@ namespace FS.Api.Controllers
 
             return Created($"v1/user/{result}", new {Id = result});
         }
+
+        [HttpPut("user/{id}")]
+        public async Task<IActionResult> EditUser(Guid id, [FromBody] EditUserResquest request)
+        {
+            var command = new EditUserCommand(id, request.Name, request.Email);
+
+            var result = await _mediator.Send(command);
+
+            return Created($"v1/user/{result}", new {Id = result});
+        }
     }
 }
