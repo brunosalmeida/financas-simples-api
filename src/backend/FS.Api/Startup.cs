@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using FS.Data.Repositories;
 using FS.Domain.Core.Interfaces;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace FS.Api
 {
@@ -25,6 +27,22 @@ namespace FS.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Finanças Simples",
+                    Description = "Finanças Simples API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Bruno Almeida",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/brunosalmeida"),
+                    }
+                });
+            });
+            
             services.AddMvc();
             
             services.AddAuthentication
@@ -64,6 +82,16 @@ namespace FS.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = true;
+            });
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Finanças Simples API");
+            });
 
             app.UseRouting();
 
