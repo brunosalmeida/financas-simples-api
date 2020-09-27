@@ -2,13 +2,15 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using FS.Api.Commands.Command;
 using FS.Api.Queries.Request;
+using FS.DataObject.User.Request;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FS.Api.Controllers
 {
-    [Authorize]   
+   
     [ApiController]
     [Route("v1")]
     public class UserController : ControllerBase
@@ -24,13 +26,25 @@ namespace FS.Api.Controllers
         }
 
         [HttpGet("user/{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> GetUserById(Guid id)
         {
-            var request = new GetUserQuery {Id =id};
+            var query = new GetUserQuery {Id =id};
 
-            var result = await _mediator.Send(request);
+            var result = await _mediator.Send(query);
 
             return Ok(result);
+        }
+
+        [HttpPost("user")]
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
+        {
+            var command = new CreateUserCommand(request.Name, request.Email, request.Password);
+
+            var result = await _mediator.Send(command);
+
+            if (result is null) return BadRequest();
+
+            return Created($"v1/user/{result}", new {Id = result});
         }
     }
 }

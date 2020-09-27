@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Commands\Handlers" />
-    <Folder Include="Commands\Resquest" />
   </ItemGroup>
 
   <ItemGroup>
