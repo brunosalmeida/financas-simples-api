@@ -1,5 +1,8 @@
 using System;
+using System.Reflection;
 using System.Text;
+using FluentValidation;
+using FS.Api.Behaviours;
 using FS.Data.Repositories;
 using FS.Domain.Core.Interfaces;
 using MediatR;
@@ -67,8 +70,10 @@ namespace FS.Api
                 .AddDbContext<DatabaseContext>(opt => 
                     opt.UseNpgsql(Configuration.GetConnectionString("DatabaseConnection")));
 
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(Startup));
-            
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddSingleton<IConfiguration>(Configuration);
             
