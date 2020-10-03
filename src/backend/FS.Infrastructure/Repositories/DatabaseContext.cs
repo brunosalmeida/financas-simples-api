@@ -47,7 +47,7 @@ namespace FS.Data.Repositories
             modelBuilder.Entity<User>()
                 .Property(u => u.Password)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(250);
 
             //Expense
             modelBuilder.Entity<Expense>().ToTable("Expenses");
