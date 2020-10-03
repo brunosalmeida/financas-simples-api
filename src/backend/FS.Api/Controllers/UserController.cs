@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
-using FS.Api.Commands.Command;
-using FS.Api.Queries.Request;
-using FS.DataObject.User.Request;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-
-namespace FS.Api.Controllers
+﻿namespace FS.Api.Controllers
 {
-   
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using System;
+    using System.Threading.Tasks;
+    using FS.Api.Commands.Command;
+    using FS.Api.Queries.Request;
+    using FS.DataObject.User.Request;
+    using MediatR;
+
+
+    [Authorize]
     [ApiController]
     [Route("v1")]
     public class UserController : ControllerBase
@@ -25,16 +26,18 @@ namespace FS.Api.Controllers
             _logger = logger;
         }
 
+
         [HttpGet("user/{id}")]
         public async Task<IActionResult> GetUserById(Guid id)
         {
-            var query = new GetUserQuery {Id =id};
+            var query = new GetUserQuery {Id = id};
 
             var result = await _mediator.Send(query);
 
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpPost("user")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
@@ -60,11 +63,11 @@ namespace FS.Api.Controllers
         [HttpPost("user/{id}/password/change")]
         public async Task<IActionResult> ChangePassword(Guid id, [FromBody] ChangePassword request)
         {
-            var command = new ChangePasswordCommand(id, request.OldPassword, 
+            var command = new ChangePasswordCommand(id, request.OldPassword,
                 request.NewPassword);
 
             var result = await _mediator.Send(command);
-            
+
             return Created($"v1/user/{result}", new {Id = result});
         }
     }

@@ -15,6 +15,11 @@ using Microsoft.OpenApi.Models;
 
 namespace FS.Api
 {
+    using Domain.Model;
+    using Domain.Model.Validators;
+    using FluentValidation;
+    using FluentValidation.AspNetCore;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -43,7 +48,8 @@ namespace FS.Api
                 });
             });
             
-            services.AddMvc();
+            services.AddMvc()
+                .AddFluentValidation();
             
             services.AddAuthentication
                     (JwtBearerDefaults.AuthenticationScheme)
@@ -68,8 +74,14 @@ namespace FS.Api
                     opt.UseNpgsql(Configuration.GetConnectionString("DatabaseConnection")));
 
             services.AddMediatR(typeof(Startup));
-            
+
+            services.AddTransient<IValidator<User>, UserValidator>();
+            services.AddTransient<IValidator<Account>, AccountValidator>();
+            services.AddTransient<IValidator<Expense>, ExpenseValidator>();
+                
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
+            
             services.AddSingleton<IConfiguration>(Configuration);
             
             services.AddControllers();

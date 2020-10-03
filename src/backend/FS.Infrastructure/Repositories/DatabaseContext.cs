@@ -26,7 +26,8 @@ namespace FS.Data.Repositories
             modelBuilder.Entity<Account>().ToTable("Accounts");
             modelBuilder.Entity<Account>().Property(a => a.Id).IsRequired();
             modelBuilder.Entity<Account>().HasKey(a => a.Id);
-            modelBuilder.Entity<Account>().HasOne(a => a.User);
+            modelBuilder.Entity<Account>().HasOne(a => a.User)
+                .WithOne( a => a.Account);
             modelBuilder.Entity<Account>().Property(a => a.UserId).IsRequired();
 
             //User
