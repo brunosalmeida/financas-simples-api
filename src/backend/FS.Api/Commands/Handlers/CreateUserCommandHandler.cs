@@ -8,6 +8,8 @@ using MediatR;
 
 namespace FS.Api.Commands.Handlers
 {
+    using Utils.Helpers;
+
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid?>
     {
         private readonly IUserRepository _userRepository;
@@ -19,8 +21,10 @@ namespace FS.Api.Commands.Handlers
         public async Task<Guid?> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
             if (!IsValid(command)) return null;
+
+            var password = PasswordHelper.Encrypt(command.Password);
             
-            var user = new User(command.Name, command.Email, command.Password);
+            var user = new User(command.Name, command.Email, password);
 
             await _userRepository.Insert(user);
 

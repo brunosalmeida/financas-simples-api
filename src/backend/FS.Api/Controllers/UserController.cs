@@ -60,6 +60,7 @@
             return Created($"v1/user/{result}", new {Id = result});
         }
 
+        [AllowAnonymous]
         [HttpPost("user/{id}/password/change")]
         public async Task<IActionResult> ChangePassword(Guid id, [FromBody] ChangePassword request)
         {
