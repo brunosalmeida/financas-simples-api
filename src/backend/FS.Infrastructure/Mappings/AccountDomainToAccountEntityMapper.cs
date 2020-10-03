@@ -11,8 +11,7 @@ namespace FS.Data.Mappings
             return new Account()
             {
                 Id = model.Id,
-                User = UserDomainToUserEntityMapper.MapFrom(model.User),
-                Expenses = ExpenseDomainToExpenseEntityMapper.MapFrom(model.Expenses),
+                UserId = model.User.Id,
                 CreatedOn = model.CreatedOn,
                 UpdatedOn = model.UpdatedOn
             };

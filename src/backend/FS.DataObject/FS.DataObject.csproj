@@ -8,4 +8,8 @@
       <Compile Remove="Class1.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Account\Request" />
+    </ItemGroup>
+
 </Project>
