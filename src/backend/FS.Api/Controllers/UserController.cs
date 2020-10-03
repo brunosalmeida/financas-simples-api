@@ -57,10 +57,10 @@ namespace FS.Api.Controllers
             return Created($"v1/user/{result}", new {Id = result});
         }
 
-        [HttpPost("user/password/change")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePassword request)
+        [HttpPost("user/{id}/password/change")]
+        public async Task<IActionResult> ChangePassword(Guid id, [FromBody] ChangePassword request)
         {
-            var command = new ChangePasswordCommand(request.Id, request.OldPassword, 
+            var command = new ChangePasswordCommand(id, request.OldPassword, 
                 request.NewPassword);
 
             var result = await _mediator.Send(command);
