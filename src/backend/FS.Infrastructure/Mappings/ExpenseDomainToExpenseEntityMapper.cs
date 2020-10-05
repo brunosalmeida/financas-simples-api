@@ -15,6 +15,7 @@ namespace FS.Data.Mappings
                 Id = model.Id,
                 Value = model.Value,
                 Description = model.Description,
+                AccountId = model.AccountId,
                 CreatedOn = model.CreatedOn,
                 UpdatedOn = model.UpdatedOn
             };
@@ -22,13 +23,12 @@ namespace FS.Data.Mappings
 
         public static IList<Expense> MapFrom(IEnumerable<FS.Domain.Model.Expense> models)
         {
-            if (models is null) return null;
-
-            return models.Select(m => new Expense()
+            return models?.Select(m => new Expense()
             {
                 Id = m.Id,
                 Value = m.Value,
                 Description = m.Description,
+                AccountId = m.AccountId,
                 CreatedOn = m.CreatedOn,
                 UpdatedOn = m.UpdatedOn.GetValueOrDefault()
             }).ToList();

@@ -16,6 +16,7 @@ namespace FS.Data.Mappings
                 entity.Value,
                 entity.Description,
                 entity.Category,
+                entity.AccountId,
                 entity.CreatedOn,
                 entity.UpdatedOn.GetValueOrDefault());
         }
@@ -23,13 +24,12 @@ namespace FS.Data.Mappings
 
         public static IEnumerable<FS.Domain.Model.Expense> MapFrom(IEnumerable<Expense> entities)
         {
-            if (entities is null) return null;
-
-            return entities.Select(e => new FS.Domain.Model.Expense(
+            return entities?.Select(e => new FS.Domain.Model.Expense(
                 e.Id,
                 e.Value,
                 e.Description,
                 e.Category,
+                e.AccountId,
                 e.CreatedOn,
                 e.UpdatedOn.GetValueOrDefault()));
         }

@@ -81,6 +81,8 @@ namespace FS.Api
                 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IExpenseRepository, ExpenseRepository>();
+            
             
             services.AddSingleton<IConfiguration>(Configuration);
             
