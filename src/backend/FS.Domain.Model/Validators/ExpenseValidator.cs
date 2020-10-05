@@ -6,6 +6,8 @@ namespace FS.Domain.Model.Validators
     {
         public ExpenseValidator()
         {
+            RuleFor(u => u.AccountId).NotEmpty().WithMessage("Expense must belongs a valid account.");
+            
             RuleFor(u => u.Value).NotNull().WithMessage("Expense's value can not be null");
             RuleFor(u => u.Value).NotEmpty().WithMessage("Expense's value can not be empty");
 

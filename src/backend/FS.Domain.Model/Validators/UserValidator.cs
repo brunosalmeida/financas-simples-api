@@ -19,7 +19,7 @@ namespace FS.Domain.Model.Validators
 
             RuleFor(u => u.Password).NotNull().WithMessage("User's password can not be null");
             RuleFor(u => u.Password).NotEmpty().WithMessage("User's password can not be empty");
-            RuleFor(u => u.Password).MaximumLength(20).WithMessage("User's password must have less than 20 characters");
+            // RuleFor(u => u.Password).MaximumLength(250).WithMessage("User's password must have less than 20 characters");
             RuleFor(u => u.Password).MinimumLength(6).WithMessage("User's password must have more than 6 characters");
         }
     }

@@ -65,21 +65,6 @@ namespace FS.Data.Repositories
                 .HasIndex(e => e.Category);
             modelBuilder.Entity<Expense>()
                 .HasIndex(e => e.CreatedOn);
-            
-        }
-    }
-    
-    public class AppDbContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
-    {
-        private const string Connection = "User ID =postgres;Password=Postgres@2020;Server=localhost;Port=5432;Database=fs_service;" +
-                                          "Integrated Security=true;Pooling=true;";
-
-        public DatabaseContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
-            optionsBuilder.UseNpgsql(Connection);
-
-            return new DatabaseContext(optionsBuilder.Options);
         }
     }
 }
