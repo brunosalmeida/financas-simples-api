@@ -1,6 +1,6 @@
 # Finança Simples
 
-This API must provide all features for any front-end or mobile app to help people control, map, and manage your personal financial life. This a simple way to know where and when you waste your precious money!
+This API must provide all features for any front-end or mobile app to help people control, map, and manage their financial life. This a simple way to know where and when you waste your precious money!
 
 ## BUILD AND RUN
 
