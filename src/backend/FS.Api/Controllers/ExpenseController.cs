@@ -36,5 +36,19 @@ namespace FS.Api.Controllers
 
             return Created($"user/{userId}/expense/{result}", new {id = result});
         }
+        
+        [HttpPut("user/{userId}/account/{expenseId}")]
+        public async Task<IActionResult> EditExpense(Guid userId, Guid expenseId, [FromBody] CreateExpenseRequest request)
+        {
+            if (request is null)
+                return BadRequest("Request is null");
+
+            var command = new CreateExpenseCommand(userId, request.AccountId, request.Description, request.Value,
+                request.Category);
+
+            var result = await _mediator.Send(command);
+
+            return Created($"user/{userId}/expense/{result}", new {id = result});
+        }
     }
 }
