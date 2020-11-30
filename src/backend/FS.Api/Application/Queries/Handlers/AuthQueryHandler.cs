@@ -1,14 +1,14 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using FS.Api.Helpers;
-using FS.Api.Queries.Request;
-using FS.Domain.Core.Interfaces;
-using MediatR;
-using Microsoft.Extensions.Configuration;
-
-namespace FS.Api.Queries.Handlers
+namespace FS.Api.Application.Queries.Handlers
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Domain.Core.Interfaces;
+    using Helpers;
+    using MediatR;
+    using Microsoft.Extensions.Configuration;
+    using Query;
+
     public class AuthQueryHandler: IRequestHandler<AuthUserQuery, string>
     {
         private readonly IConfiguration _configuration;

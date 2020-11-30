@@ -1,7 +1,6 @@
-namespace FS.Api.Commands.Command
+namespace FS.Api.Application.Commands.Command
 {
     using System;
-    using DataObject.Expense.Response;
     using MediatR;
 
     public class CreateExpenseCommand : IRequest<Guid>

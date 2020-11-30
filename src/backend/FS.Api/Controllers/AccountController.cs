@@ -2,7 +2,7 @@ namespace FS.Api.Controllers
 {
     using System;
     using System.Threading.Tasks;
-    using Commands.Command;
+    using Application.Commands.Command;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

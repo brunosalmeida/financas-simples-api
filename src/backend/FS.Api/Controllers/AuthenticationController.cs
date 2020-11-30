@@ -1,7 +1,7 @@
 namespace FS.Api.Controllers
 {
     using System.Threading.Tasks;
-    using FS.Api.Queries.Request;
+    using Application.Queries.Query;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -19,7 +19,7 @@ namespace FS.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet("auth")]
+        [HttpPost("auth")]
         public async Task<IActionResult> Login(string username, string password)
         {
             var auth = new AuthUserQuery(username, password);

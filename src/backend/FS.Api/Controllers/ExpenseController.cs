@@ -2,7 +2,6 @@ namespace FS.Api.Controllers
 {
     using System;
     using System.Threading.Tasks;
-    using Commands.Command;
     using DataObject.Expense.Request;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
@@ -29,10 +28,10 @@ namespace FS.Api.Controllers
             if (request is null)
                 return BadRequest("Request is null");
 
-            var command = new CreateExpenseCommand(userId, request.AccountId, request.Description, request.Value,
-                request.Category);
+            // var command = new CreateExpenseCommand(userId, request.AccountId, request.Description, request.Value,
+            //     request.Category);
 
-            var result = await _mediator.Send(command);
+            var result = 1; //await _mediator.Send(command);
 
             return Created($"user/{userId}/expense/{result}", new {id = result});
         }
@@ -43,10 +42,10 @@ namespace FS.Api.Controllers
             if (request is null)
                 return BadRequest("Request is null");
 
-            var command = new CreateExpenseCommand(userId, request.AccountId, request.Description, request.Value,
-                request.Category);
+            // var command = new CreateExpenseCommand(userId, request.AccountId, request.Description, request.Value,
+            //     request.Category);
 
-            var result = await _mediator.Send(command);
+            var result = 1;//await _mediator.Send(command);
 
             return Created($"user/{userId}/expense/{result}", new {id = result});
         }

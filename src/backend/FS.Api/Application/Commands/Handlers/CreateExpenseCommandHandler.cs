@@ -1,4 +1,4 @@
-namespace FS.Api.Commands.Handlers
+namespace FS.Api.Application.Commands.Handlers
 {
     using System;
     using System.Threading;

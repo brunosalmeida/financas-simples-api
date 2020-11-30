@@ -5,8 +5,8 @@
     using Microsoft.Extensions.Logging;
     using System;
     using System.Threading.Tasks;
-    using FS.Api.Commands.Command;
-    using FS.Api.Queries.Request;
+    using Application.Commands.Command;
+    using Application.Queries.Query;
     using FS.DataObject.User.Request;
     using MediatR;
 
