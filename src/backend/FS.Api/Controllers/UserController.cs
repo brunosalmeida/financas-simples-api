@@ -14,7 +14,7 @@
     [Authorize]
     [ApiController]
     [Route("v1")]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
         private readonly IMediator _mediator;
 

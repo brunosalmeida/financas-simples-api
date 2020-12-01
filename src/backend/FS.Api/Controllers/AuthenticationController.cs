@@ -8,7 +8,7 @@ namespace FS.Api.Controllers
 
     [ApiController]
     [Route("v1")]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;

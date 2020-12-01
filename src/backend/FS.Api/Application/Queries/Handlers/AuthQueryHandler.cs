@@ -22,7 +22,9 @@ namespace FS.Api.Application.Queries.Handlers
 
         public async Task<string> Handle(AuthUserQuery request, CancellationToken cancellationToken)
         {
-            var id = await _userRepository.GetUserByUsernameAndPassword(request.Username, request.Password);
+            var id = await _userRepository.GetUserByUsernameAndPassword(
+                request.Username, Utils.Helpers.PasswordHelper.Encrypt(request.Password));
+            
             return id == Guid.Empty ? string.Empty : JwtHelper.CreateToken (id, _configuration["Jwt:Issuer"], 
                 _configuration["Jwt:Audience"],_configuration["Jwt:Key"]);
         }
