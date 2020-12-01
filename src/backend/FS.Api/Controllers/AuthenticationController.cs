@@ -25,8 +25,8 @@ namespace FS.Api.Controllers
             var auth = new AuthUserQuery(username, password);
             var result = await _mediator.Send(auth);
 
-            if (string.IsNullOrEmpty(result))
-                return NotFound("Invalid username or password");
+            if (result.Error)
+                return NotFound(result);
 
             return Ok(result);
         }

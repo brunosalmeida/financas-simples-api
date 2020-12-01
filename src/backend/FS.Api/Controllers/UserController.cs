@@ -46,7 +46,7 @@
             var result = await _mediator.Send(command);
 
             if (result is null) return BadRequest();
-
+            
             return Created($"v1/user/{result}", new {Id = result});
         }
 

@@ -1,8 +1,9 @@
 namespace FS.Api.Application.Queries.Query
 {
+    using DataObject.Authentication;
     using MediatR;
 
-    public class AuthUserQuery : IRequest<string>
+    public class AuthUserQuery : IRequest<AuthenticationResponse>
     {
         public AuthUserQuery(string username, string password)
         {
