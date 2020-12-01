@@ -1,4 +1,4 @@
-namespace FS.Api.Commands.Command
+namespace FS.Api.Application.Commands.Command
 {
     using System;
     using MediatR;

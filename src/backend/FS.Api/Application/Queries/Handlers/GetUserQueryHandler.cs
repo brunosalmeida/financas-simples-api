@@ -1,12 +1,12 @@
-using System.Threading;
-using System.Threading.Tasks;
-using FS.Api.Queries.Request;
-using FS.DataObject.User.Responses;
-using FS.Domain.Core.Interfaces;
-using MediatR;
-
-namespace FS.Api.Queries.Handlers
+namespace FS.Api.Application.Queries.Handlers
 {
+    using System.Threading;
+    using System.Threading.Tasks;
+    using DataObject.User.Responses;
+    using Domain.Core.Interfaces;
+    using MediatR;
+    using Query;
+
     public class GetUserQueryHandler : IRequestHandler<GetUserQuery, GetUserResponse>
     {
         private readonly IUserRepository _userRepository;

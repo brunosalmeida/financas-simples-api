@@ -1,13 +1,12 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using FS.Api.Commands.Command;
-using FS.Domain.Core.Interfaces;
-using FS.Domain.Model;
-using MediatR;
-
-namespace FS.Api.Commands.Handlers
+namespace FS.Api.Application.Commands.Handlers
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Command;
+    using Domain.Core.Interfaces;
+    using MediatR;
+
     public class EditUserCommandHandler : IRequestHandler<EditUserCommand, Guid>
     {
         private readonly IUserRepository _userRepository;

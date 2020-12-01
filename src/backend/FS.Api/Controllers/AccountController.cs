@@ -2,16 +2,16 @@ namespace FS.Api.Controllers
 {
     using System;
     using System.Threading.Tasks;
-    using Commands.Command;
+    using Application.Commands.Command;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
-    // [Authorize]
+    [Authorize]
     [ApiController]
     [Route("v1")]
-    public class AccountController  : ControllerBase
+    public class AccountController  : BaseController
     {
         private readonly ILogger<UserController> _logger;
         private readonly IMediator _mediator;
@@ -35,9 +35,11 @@ namespace FS.Api.Controllers
         }
 
         [HttpPost("account")]
-        public async Task<IActionResult> CreatAccount([FromHeader]Guid user)
+        public async Task<IActionResult> CreatAccount()
         {
-            if (user.Equals(Guid.Empty))
+            var user = this.GetUserId();
+            
+            if(user == Guid.Empty)
                 return BadRequest("No header found!");
             
             var command = new CreateAccountCommand(user);

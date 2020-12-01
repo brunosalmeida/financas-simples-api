@@ -2,17 +2,17 @@ namespace FS.Api.Controllers
 {
     using System;
     using System.Threading.Tasks;
-    using Commands.Command;
+    using Application.Commands.Command;
     using DataObject.Expense.Request;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
-    // [Authorize]
+    [Authorize]
     [ApiController]
     [Route("v1")]
-    public class ExpenseController : ControllerBase
+    public class ExpenseController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly ILogger<ExpenseController> _logger;

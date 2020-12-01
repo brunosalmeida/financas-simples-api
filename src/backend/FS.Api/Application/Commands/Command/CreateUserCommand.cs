@@ -1,8 +1,8 @@
-using System;
-using MediatR;
-
-namespace FS.Api.Commands.Command
+namespace FS.Api.Application.Commands.Command
 {
+    using System;
+    using MediatR;
+
     public class CreateUserCommand : IRequest<Guid?>
     {
         public CreateUserCommand(string name, string email, string password)

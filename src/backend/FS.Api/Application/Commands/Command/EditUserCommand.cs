@@ -1,8 +1,8 @@
-using System;
-using MediatR;
-
-namespace FS.Api.Commands.Command
+namespace FS.Api.Application.Commands.Command
 {
+    using System;
+    using MediatR;
+
     public class EditUserCommand : IRequest<Guid>
     {
         public Guid Id { get; private set; }

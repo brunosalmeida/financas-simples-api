@@ -25,13 +25,5 @@ namespace FS.Api.Helpers
             var stringToken = tokenHandler.WriteToken(token);
             return stringToken;
         }
-
-        public static string GetClaim(string jwt)
-        {
-            var handler = new JwtSecurityTokenHandler();
-            var token = handler.ReadJwtToken(jwt);
-            
-            return token.Claims.First(claim => claim.Type == "jti").Value;
-        }
     }
 }

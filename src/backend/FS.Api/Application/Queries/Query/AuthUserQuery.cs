@@ -1,8 +1,7 @@
-using System;
-using MediatR;
-
-namespace FS.Api.Queries.Request
+namespace FS.Api.Application.Queries.Query
 {
+    using MediatR;
+
     public class AuthUserQuery : IRequest<string>
     {
         public AuthUserQuery(string username, string password)

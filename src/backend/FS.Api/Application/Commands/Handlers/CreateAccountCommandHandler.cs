@@ -1,14 +1,12 @@
-namespace FS.Api.Commands.Handlers
+namespace FS.Api.Application.Commands.Handlers
 {
     using System;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Command;
     using Domain.Core.Interfaces;
     using Domain.Model;
     using Domain.Model.Validators;
-    using FluentValidation;
     using MediatR;
 
     public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, Guid>
