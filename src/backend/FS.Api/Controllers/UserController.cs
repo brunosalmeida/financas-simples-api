@@ -47,7 +47,7 @@
 
             if (result is null) return BadRequest();
             
-            return Created($"v1/user/{result}", new {Id = result});
+            return Created($"v1/user/{result.User}", new {Id = result});
         }
 
         [HttpPut("user/{id}")]

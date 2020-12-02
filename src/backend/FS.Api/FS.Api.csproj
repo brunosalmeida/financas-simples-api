@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Compile Remove="WeatherForecast.cs" />
+    <Compile Remove="Helpers\InfoUser.cs" />
   </ItemGroup>
 
   <ItemGroup>

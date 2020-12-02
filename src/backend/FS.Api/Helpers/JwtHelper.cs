@@ -7,11 +7,19 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace FS.Api.Helpers
 {
+    using System.Collections.Generic;
+
     public static class JwtHelper
     {
-        public static string CreateToken(Guid userId, string issuer, string audience, string key)
+        public static string CreateToken(Dictionary<string, Guid> claims, string issuer, string audience, string key)
         {
-            var claims = new[] {new Claim("user", userId.ToString())};
+            var _claims = new List<Claim>();
+
+            foreach ((string claimName, Guid claimValue) in claims)
+            {
+                _claims.Add(new Claim(claimName, claimValue.ToString()));
+            }
+
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -19,7 +27,7 @@ namespace FS.Api.Helpers
                 audience: audience,
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: credentials,
-                claims:claims);
+                claims: _claims);
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var stringToken = tokenHandler.WriteToken(token);

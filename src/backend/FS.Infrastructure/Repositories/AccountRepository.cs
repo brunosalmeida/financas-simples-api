@@ -19,7 +19,8 @@ namespace FS.Data.Repositories
 
         public async Task<Account> Get(Guid id)
         {
-            var entity = await this._context.Accounts.AsNoTracking().Where(u => u.Id.Equals(id)).FirstOrDefaultAsync();
+            var entity = await this._context.Accounts.AsNoTracking().
+                Where(u => u.Id.Equals(id)).FirstOrDefaultAsync();
 
             return AccountEntityToAccountDomainMapper.MapFrom(entity);
         }
@@ -38,12 +39,20 @@ namespace FS.Data.Repositories
 
         public async Task Delete(Guid id)
         {
-            var entity = await this._context.Expenses.FirstOrDefaultAsync(u => u.Id.Equals(id));
-            this._context.Expenses.Remove(entity);
+            var entity = await this._context.Accounts.FirstOrDefaultAsync(u => u.Id.Equals(id));
+            this._context.Accounts.Remove(entity);
 
             await this._context.SaveChangesAsync();
 
             await Task.CompletedTask;
+        }
+
+        public async Task<Account> GetAccountByUserId(Guid userId)
+        {
+            var entity = await this._context.Accounts.AsNoTracking()
+                .Where(u => u.UserId.Equals(userId)).FirstOrDefaultAsync();
+            
+            return AccountEntityToAccountDomainMapper.MapFrom(entity);
         }
     }
 }

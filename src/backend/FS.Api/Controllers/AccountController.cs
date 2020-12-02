@@ -37,12 +37,12 @@ namespace FS.Api.Controllers
         [HttpPost("account")]
         public async Task<IActionResult> CreatAccount()
         {
-            var user = this.GetUserId();
+            var userInfo = this.GetUserInfo();
             
-            if(user == Guid.Empty)
-                return BadRequest("No header found!");
+            if(userInfo is null)
+                return BadRequest("No token found!");
             
-            var command = new CreateAccountCommand(user);
+            var command = new CreateAccountCommand(userInfo.UserId);
 
             var result = await _mediator.Send(command);
 

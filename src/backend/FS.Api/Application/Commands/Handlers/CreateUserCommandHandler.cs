@@ -4,39 +4,23 @@ namespace FS.Api.Application.Commands.Handlers
     using System.Threading;
     using System.Threading.Tasks;
     using Command;
+    using DataObject.User;
     using Domain.Core.Interfaces;
+    using Domain.Core.Services;
     using Domain.Model;
     using MediatR;
     using Utils.Helpers;
 
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid?>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserAccount>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IMediator _mediator;
+        private readonly IUserAccountService _userAccountService;
 
-        public CreateUserCommandHandler(IUserRepository userRepository, IMediator mediator)
+        public CreateUserCommandHandler(IUserAccountService accountService)
         {
-            _userRepository = userRepository;
-            _mediator = mediator;
+            _userAccountService = accountService;
         }
 
-        public async Task<Guid?> Handle(CreateUserCommand command, CancellationToken cancellationToken)
-        {
-            var userId = await CreateUser(command);
-
-            if (userId != null)
-                CreateAccount(userId.Value);
-
-            return userId;
-        }
-
-        private void CreateAccount(Guid userId)
-        {
-            var command = new CreateAccountCommand(userId);
-            _mediator.Send(command);
-        }
-
-        private async Task<Guid?> CreateUser(CreateUserCommand command)
+        public async Task<UserAccount> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
             if (!IsValid(command)) return null;
 
@@ -44,10 +28,11 @@ namespace FS.Api.Application.Commands.Handlers
 
             var user = new User(command.Name, command.Email, password);
 
-            await _userRepository.Insert(user);
-
-            return user.Id;
+            var userAccount = await _userAccountService.Create(user);
+            
+            return userAccount;
         }
+
 
         private bool IsValid(CreateUserCommand command) =>
             !string.IsNullOrEmpty(command.Name) && !string.IsNullOrEmpty(command.Email) &&
