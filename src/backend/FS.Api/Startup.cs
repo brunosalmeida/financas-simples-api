@@ -1,26 +1,25 @@
-using System;
-using System.Text;
-using FS.Data.Repositories;
-using FS.Domain.Core.Interfaces;
-using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-
 namespace FS.Api
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using System;
+    using System.Text;
+    using Domain.Core.Services;
+    using FS.Data.Repositories;
+    using FS.Domain.Core.Interfaces;
+    using MediatR;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Tokens;
+    using Microsoft.OpenApi.Models;
     using Domain.Model;
     using Domain.Model.Validators;
     using FluentValidation;
     using FluentValidation.AspNetCore;
+    using Helpers;
 
     public class Startup
     {
@@ -114,7 +113,8 @@ namespace FS.Api
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IExpenseRepository, ExpenseRepository>();
-            
+
+            services.AddTransient<IUserAccountService, UserAccountService>();
             
             services.AddSingleton<IConfiguration>(Configuration);
             
@@ -143,6 +143,8 @@ namespace FS.Api
             
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCustomExceptionHandler();
             
             app.UseEndpoints(endpoints =>
             {

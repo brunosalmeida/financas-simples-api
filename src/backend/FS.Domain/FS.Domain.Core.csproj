@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FS.DataObject\FS.DataObject.csproj" />
     <ProjectReference Include="..\FS.Domain.Model\FS.Domain.Model.csproj" />
   </ItemGroup>
 

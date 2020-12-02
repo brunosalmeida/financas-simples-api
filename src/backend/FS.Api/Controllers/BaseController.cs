@@ -6,16 +6,29 @@ namespace FS.Api.Controllers
 
     public abstract class BaseController : ControllerBase
     {
-        protected Guid GetUserId()
+        protected InfoUser GetUserInfo()
         {
             if (!(HttpContext.User.Identity is ClaimsIdentity identity))
             {
-                return Guid.Empty;
+                return null;
             }
 
-            var claim = identity.FindFirst("user").Value;
-                
-            return new Guid(claim);
+            var user = identity.FindFirst("user").Value;
+            var account = identity.FindFirst("account").Value;
+
+            return new InfoUser(Guid.Parse(user), Guid.Parse(account)); 
+        }
+    }
+    
+    public class InfoUser
+    {
+        public Guid UserId { get; private set; }
+        public Guid AccountId { get; private set; }
+
+        public InfoUser(Guid userId, Guid accountId)
+        {
+            UserId = userId;
+            AccountId = accountId;
         }
     }
 }

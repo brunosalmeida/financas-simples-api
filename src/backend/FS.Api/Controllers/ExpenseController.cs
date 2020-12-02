@@ -26,10 +26,15 @@ namespace FS.Api.Controllers
         [HttpPost("user/{userId}/account")]
         public async Task<IActionResult> CreateExpense(Guid userId, [FromBody] CreateExpenseRequest request)
         {
+            var userInfo = this.GetUserInfo();
+
+            if (!userId.Equals(userInfo.UserId))
+                return BadRequest("Invalid token.");
+                
             if (request is null)
                 return BadRequest("Request is null");
 
-            var command = new CreateExpenseCommand(userId, request.AccountId, request.Description, request.Value,
+            var command = new CreateExpenseCommand(userInfo.UserId, userInfo.AccountId, request.Description, request.Value,
                 request.Category);
 
             var result = await _mediator.Send(command);
@@ -40,10 +45,15 @@ namespace FS.Api.Controllers
         [HttpPut("user/{userId}/account/{expenseId}")]
         public async Task<IActionResult> EditExpense(Guid userId, Guid expenseId, [FromBody] CreateExpenseRequest request)
         {
+            var userInfo = this.GetUserInfo();
+
+            if (!userId.Equals(userInfo.UserId))
+                return BadRequest("Invalid token.");
+            
             if (request is null)
                 return BadRequest("Request is null");
 
-            var command = new CreateExpenseCommand(userId, request.AccountId, request.Description, request.Value,
+            var command = new CreateExpenseCommand(userInfo.UserId, userInfo.AccountId, request.Description, request.Value,
                 request.Category);
 
             var result = await _mediator.Send(command);
