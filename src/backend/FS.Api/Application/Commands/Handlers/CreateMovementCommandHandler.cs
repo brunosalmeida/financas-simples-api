@@ -10,14 +10,14 @@ namespace FS.Api.Application.Commands.Handlers
     using MediatR;
     using Utils.Enums;
 
-    public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, Guid>
+    public class CreateMovementCommandHandler : IRequestHandler<CreateExpenseCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAccountRepository _accountRepository;
-        private readonly IExpenseRepository _expenseRepository;
+        private readonly IMovimentRepository _expenseRepository;
 
-        public CreateExpenseCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
-            IExpenseRepository expenseRepository)
+        public CreateMovementCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
+            IMovimentRepository expenseRepository)
         {
             _userRepository = repository;
             _accountRepository = accountRepository;
@@ -33,17 +33,17 @@ namespace FS.Api.Application.Commands.Handlers
             if (await _accountRepository.Get(command.AccountId) is var account && account is null)
                 throw new Exception("Invalid account");
 
-            var expense = new Expense(command.Value, command.Description, (ECategory)command.Category,
-                command.AccountId);
+            var movement = new Moviment(command.Value, command.Description, (EMovementCategory)command.Category,
+                (EMovementType)command.Type, command.AccountId, command.UserId);
 
-            var expenseValidator = new ExpenseValidator();
-            var result = await expenseValidator.ValidateAsync(expense, default);
+            var movimentValidator = new MovimentValidator();
+            var result = await movimentValidator.ValidateAsync(movement, default);
 
             if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));
 
-            await _expenseRepository.Insert(expense);
+            await _expenseRepository.Insert(movement);
 
-            return expense.Id;
+            return movement.Id;
         }
     }
 }

@@ -12,4 +12,8 @@
       <Folder Include="Account\Request" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\FS.Utils\FS.Utils.csproj" />
+    </ItemGroup>
+
 </Project>

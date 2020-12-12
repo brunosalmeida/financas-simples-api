@@ -35,7 +35,7 @@ namespace FS.Api.Controllers
                 return BadRequest("Request is null");
 
             var command = new CreateExpenseCommand(userInfo.UserId, userInfo.AccountId, request.Description, request.Value,
-                request.Category);
+                request.Category, request.Type);
 
             var result = await _mediator.Send(command);
 
@@ -54,7 +54,7 @@ namespace FS.Api.Controllers
                 return BadRequest("Request is null");
 
             var command = new CreateExpenseCommand(userInfo.UserId, userInfo.AccountId, request.Description, request.Value,
-                request.Category);
+                request.Category, request.Type);
 
             var result = await _mediator.Send(command);
 

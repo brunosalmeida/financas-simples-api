@@ -1,12 +1,10 @@
-﻿using FS.Domain.Core.Interfaces;
-using FS.Domain.Model;
-
-namespace FS.Domain.Core.Interfaces
+﻿namespace FS.Domain.Core.Interfaces
 {
     using System;
     using System.Threading.Tasks;
+    using FS.Domain.Model;
 
-    public interface IAccountRepository : IRepository<Account>
+    public interface IAccountRepository : IGet<Account>, ICreate<Account>, IDelete<Account>
     {
         Task<Account> GetAccountByUserId(Guid userId);
     }

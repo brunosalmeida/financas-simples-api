@@ -6,8 +6,8 @@ namespace FS.Api.Application.Commands.Handlers
     using Command;
     using DataObject.User;
     using Domain.Core.Interfaces;
-    using Domain.Core.Services;
     using Domain.Model;
+    using Domain.Model.Validators;
     using MediatR;
     using Utils.Helpers;
 
@@ -22,20 +22,18 @@ namespace FS.Api.Application.Commands.Handlers
 
         public async Task<UserAccount> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            if (!IsValid(command)) return null;
-
             var password = PasswordHelper.Encrypt(command.Password);
 
-            var user = new User(command.Name, command.Email, password);
+            var user = new User(command.Name, command.Email, password, command.Gender);
+            
+            var userValidator = new UserValidator();
+            var result = await userValidator.ValidateAsync(user, default);
 
-            var userAccount = await _userAccountService.Create(user);
+            if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));
+            
+            var userAccount = await _userAccountService.CreateUserAndAccount(user);
             
             return userAccount;
         }
-
-
-        private bool IsValid(CreateUserCommand command) =>
-            !string.IsNullOrEmpty(command.Name) && !string.IsNullOrEmpty(command.Email) &&
-            !string.IsNullOrEmpty(command.Password);
     }
 }

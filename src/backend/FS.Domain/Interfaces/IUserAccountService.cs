@@ -1,4 +1,4 @@
-namespace FS.Domain.Core.Services
+namespace FS.Domain.Core.Interfaces
 {
     using System.Threading.Tasks;
     using DataObject.User;
@@ -6,6 +6,6 @@ namespace FS.Domain.Core.Services
 
     public interface IUserAccountService
     {
-        Task<UserAccount> Create(User user);
+        Task<UserAccount> CreateUserAndAccount(User user);
     }
 }

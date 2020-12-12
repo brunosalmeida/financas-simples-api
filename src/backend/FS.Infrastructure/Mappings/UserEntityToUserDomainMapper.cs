@@ -2,7 +2,10 @@
 
 namespace FS.Data.Mappings
 {
-    public class UserEntityToUserDomainMapper
+    using System.Collections.Generic;
+    using System.Linq;
+
+    public static class UserEntityToUserDomainMapper
     {
         public static FS.Domain.Model.User MapFrom(User entity)
         {
@@ -13,8 +16,21 @@ namespace FS.Data.Mappings
                 entity.Name,
                 entity.Email,
                 entity.Password,
+                entity.Gender,
                 entity.CreatedOn,
                 entity.UpdatedOn.GetValueOrDefault());
+        }
+        
+        public static IEnumerable<FS.Domain.Model.User> MapFrom(IEnumerable<User> entities)
+        {
+            return entities.Select(e => new FS.Domain.Model.User(
+                e.Id,
+                e.Name,
+                e.Email,
+                e.Password,
+                e.Gender,
+                e.CreatedOn,
+                e.UpdatedOn.GetValueOrDefault()));
         }
     }
 }
