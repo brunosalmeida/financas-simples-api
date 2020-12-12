@@ -4,13 +4,11 @@ namespace FS.Data.Repositories
     using Dapper;
     using System;
     using System.Collections.Generic;
-    using System.Security.AccessControl;
     using System.Text;
     using System.Threading.Tasks;
     using FS.Data.Mappings;
     using FS.Domain.Core.Interfaces;
     using FS.Domain.Model;
-    using Microsoft.AspNetCore.Mvc.ApplicationModels;
     using Microsoft.Extensions.Configuration;
 
     public class AccountRepository : IAccountRepository
@@ -26,13 +24,21 @@ namespace FS.Data.Repositories
 
         public async Task<Account> Get(Guid id)
         {
-            var sql = $"SELECT * FROM {table} WHERE ID = @id";
+            var sql = $"SELECT Id, UserId FROM {table} WHERE ID = @id";
 
             await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
             connection.Open();
-            var entity = await connection.QueryFirstAsync(sql, new {id});
+            
+            var dictionary = new Dictionary<string, object>
+            {
+                {"@id", id}
+            };
 
-            return AccountEntityToAccountDomainMapper.MapFrom(entity);
+            var parameters = new DynamicParameters(dictionary);
+            
+            var account = await connection.QueryFirstAsync<FS.Data.Entities.Account>(sql, parameters);
+
+            return AccountEntityToAccountDomainMapper.MapFrom(account);
         }
 
         public async Task Insert(Account entity)
@@ -66,12 +72,37 @@ namespace FS.Data.Repositories
 
         public async Task Delete(Guid id)
         {
-            throw new NotImplementedException("Method available");
+            var sql = $"DELETE FROM {table} WHERE ID = @id";
+
+            await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+            connection.Open();
+
+            var dictionary = new Dictionary<string, object> {{"@id", id}};
+
+            var parameters = new DynamicParameters(dictionary);
+
+            await connection.ExecuteScalarAsync(sql, parameters);
+
+            await Task.CompletedTask;
         }
 
         public async Task<Account> GetAccountByUserId(Guid userId)
         {
-            throw new NotImplementedException("Method available");
+            var sql = $"SELECT Id, UserId FROM {table} WHERE UserId = @userId";
+
+            await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+            connection.Open();
+            
+            var dictionary = new Dictionary<string, object>
+            {
+                {"@userId", userId}
+            };
+
+            var parameters = new DynamicParameters(dictionary);
+            
+            var account = await connection.QueryFirstAsync<FS.Data.Entities.Account>(sql, parameters);
+
+            return AccountEntityToAccountDomainMapper.MapFrom(account);
         }
     }
 }
