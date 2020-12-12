@@ -11,9 +11,9 @@ namespace FS.Api.Application.Commands.Handlers
 
     public class EditExpenseCommandHandler : IRequestHandler<EditMovementCommand, Guid>
     {
-        private readonly IExpenseRepository _expenseRepository;
+        private readonly IMovimentRepository _expenseRepository;
 
-        public EditExpenseCommandHandler(IExpenseRepository expenseRepository)
+        public EditExpenseCommandHandler(IMovimentRepository expenseRepository)
         {
             _expenseRepository = expenseRepository;
         }

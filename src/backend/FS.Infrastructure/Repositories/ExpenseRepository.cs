@@ -7,7 +7,7 @@ namespace FS.Data.Repositories
     using FS.Domain.Model;
     using System.Data;
 
-    public class ExpenseRepository : IExpenseRepository
+    public class ExpenseRepository : IMovimentRepository
     {
         private IDbConnection _connection;
         

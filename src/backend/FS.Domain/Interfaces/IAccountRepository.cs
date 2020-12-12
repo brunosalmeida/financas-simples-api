@@ -6,7 +6,7 @@ namespace FS.Domain.Core.Interfaces
     using System;
     using System.Threading.Tasks;
 
-    public interface IAccountRepository : IRepository<Account>
+    public interface IAccountRepository : IGet<Account>, ICreate<Account>, IDelete<Account>
     {
         Task<Account> GetAccountByUserId(Guid userId);
     }

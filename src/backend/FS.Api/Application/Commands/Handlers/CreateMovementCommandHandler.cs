@@ -14,10 +14,10 @@ namespace FS.Api.Application.Commands.Handlers
     {
         private readonly IUserRepository _userRepository;
         private readonly IAccountRepository _accountRepository;
-        private readonly IExpenseRepository _expenseRepository;
+        private readonly IMovimentRepository _expenseRepository;
 
         public CreateMovementCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
-            IExpenseRepository expenseRepository)
+            IMovimentRepository expenseRepository)
         {
             _userRepository = repository;
             _accountRepository = accountRepository;

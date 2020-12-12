@@ -65,11 +65,6 @@ namespace FS.Data.Repositories
             await Task.CompletedTask;
         }
 
-        public Task Update(Guid id, Account model)
-        {
-            throw new NotImplementedException("Method available");
-        }
-
         public async Task Delete(Guid id)
         {
             var sql = $"DELETE FROM {table} WHERE ID = @id";
