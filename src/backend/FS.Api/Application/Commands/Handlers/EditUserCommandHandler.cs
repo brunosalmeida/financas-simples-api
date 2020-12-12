@@ -5,6 +5,7 @@ namespace FS.Api.Application.Commands.Handlers
     using System.Threading.Tasks;
     using Command;
     using Domain.Core.Interfaces;
+    using Domain.Model.Validators;
     using MediatR;
 
     public class EditUserCommandHandler : IRequestHandler<EditUserCommand, Guid>
@@ -16,21 +17,20 @@ namespace FS.Api.Application.Commands.Handlers
             _userRepository = userRepository;
         }
 
-
         public async Task<Guid> Handle(EditUserCommand command, CancellationToken cancellationToken)
         {
-            if (!IsValid(command)) throw new Exception("Name and email can not be empty");
-
             var user = await _userRepository.Get(command.Id);
             user.SetEmail(command.Email);
             user.SetName(command.Name);
+            
+            var userValidator = new UserValidator();
+            var result = await userValidator.ValidateAsync(user, default);
+
+            if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));
 
             await _userRepository.Update(user.Id, user);
 
             return user.Id;
         }
-
-        private bool IsValid(EditUserCommand command) =>
-            !string.IsNullOrEmpty(command.Name) && !string.IsNullOrEmpty(command.Email);
     }
 }

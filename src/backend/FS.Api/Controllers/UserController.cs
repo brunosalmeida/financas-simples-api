@@ -53,7 +53,7 @@
         [HttpPut("user/{id}")]
         public async Task<IActionResult> EditUser(Guid id, [FromBody] EditUserResquest request)
         {
-            var command = new EditUserCommand(id, request.Name, request.Email);
+            var command = new EditUserCommand(id, request.Name, request.Email, request.Gender);
 
             var result = await _mediator.Send(command);
 

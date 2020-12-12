@@ -36,8 +36,8 @@ namespace FS.Api.Application.Commands.Handlers
             var movement = new Moviment(command.Value, command.Description, (EMovementCategory)command.Category,
                 (EMovementType)command.Type, command.AccountId, command.UserId);
 
-            var expenseValidator = new MovimentValidator();
-            var result = await expenseValidator.ValidateAsync(movement, default);
+            var movimentValidator = new MovimentValidator();
+            var result = await movimentValidator.ValidateAsync(movement, default);
 
             if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));
 
