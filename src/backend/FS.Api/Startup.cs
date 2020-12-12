@@ -9,7 +9,6 @@ namespace FS.Api
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -23,9 +22,14 @@ namespace FS.Api
 
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostEnvironment hostEnvironment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostEnvironment.ContentRootPath)
+                .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true, true)
+                .AddEnvironmentVariables();
+            
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -100,23 +104,17 @@ namespace FS.Api
             services.AddMvc()
                 .AddFluentValidation();
          
-            services.AddEntityFrameworkNpgsql()
-                .AddDbContext<DatabaseContext>(opt => 
-                    opt.UseNpgsql(Configuration.GetConnectionString("DatabaseConnection")));
-
             services.AddMediatR(typeof(Startup));
 
             services.AddTransient<IValidator<User>, UserValidator>();
             services.AddTransient<IValidator<Account>, AccountValidator>();
-            services.AddTransient<IValidator<Expense>, ExpenseValidator>();
+            services.AddTransient<IValidator<Moviment>, ExpenseValidator>();
                 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IExpenseRepository, ExpenseRepository>();
 
             services.AddTransient<IUserAccountService, UserAccountService>();
-            
-            services.AddSingleton<IConfiguration>(Configuration);
             
             services.AddControllers();
         }

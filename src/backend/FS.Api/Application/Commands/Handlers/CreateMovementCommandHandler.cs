@@ -10,13 +10,13 @@ namespace FS.Api.Application.Commands.Handlers
     using MediatR;
     using Utils.Enums;
 
-    public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, Guid>
+    public class CreateMovementCommandHandler : IRequestHandler<CreateExpenseCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IExpenseRepository _expenseRepository;
 
-        public CreateExpenseCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
+        public CreateMovementCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
             IExpenseRepository expenseRepository)
         {
             _userRepository = repository;
@@ -33,17 +33,18 @@ namespace FS.Api.Application.Commands.Handlers
             if (await _accountRepository.Get(command.AccountId) is var account && account is null)
                 throw new Exception("Invalid account");
 
-            var expense = new Expense(command.Value, command.Description, (ECategory)command.Category,
+            var movement = new Moviment(command.Value, command.Description, (EMovementCategory)command.Category,
+                (EMovementType)command.Type,
                 command.AccountId);
 
             var expenseValidator = new ExpenseValidator();
-            var result = await expenseValidator.ValidateAsync(expense, default);
+            var result = await expenseValidator.ValidateAsync(movement, default);
 
             if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));
 
-            await _expenseRepository.Insert(expense);
+            await _expenseRepository.Insert(movement);
 
-            return expense.Id;
+            return movement.Id;
         }
     }
 }

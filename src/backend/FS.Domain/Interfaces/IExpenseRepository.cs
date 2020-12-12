@@ -5,8 +5,8 @@ using FS.Domain.Model;
 
 namespace FS.Domain.Core.Interfaces
 {
-    public interface IExpenseRepository : IRepository<Expense>
+    public interface IExpenseRepository : IRepository<Moviment>
     {
-        Task<IEnumerable<Expense>> GetExpensesByAccount(Guid accountId);
+        Task<IEnumerable<Moviment>> GetExpensesByAccount(Guid accountId);
     }
 }

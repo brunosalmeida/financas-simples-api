@@ -1,87 +1,75 @@
-﻿using FS.Domain.Core.Interfaces;
-using FS.Data.Mappings;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FS.Data.Repositories
+﻿namespace FS.Data.Repositories
 {
+    using FS.Domain.Core.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using System.Data;
+    using System.Data.SqlClient;
+    using System.Text;
+    using Dapper;
+    using Microsoft.Extensions.Configuration;
+
     public class UserRepository : IUserRepository
     {
-        private readonly DatabaseContext _context;
-
-        public UserRepository(DatabaseContext context)
+        private const string table = "dbo.Users";
+        
+        private readonly IConfiguration _configuration;
+        
+        public UserRepository(IConfiguration configuration)
         {
-            this._context = context;
+            _configuration = configuration;
         }
-
         public async Task Delete(Guid id)
         {
-            var entity = await this._context.Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
-            this._context.Users.Remove(entity);
-
-            await this._context.SaveChangesAsync();
-
-            await Task.CompletedTask;
-        }
-
-        public void Dispose()
-        {
-            this._context.Dispose();
+            throw new NotImplementedException("Method available");
         }
 
         public async Task<Guid> GetUserByUsernameAndPassword(string email, string password)
         {
-            var user = await this._context.Users.Where(u => u.Email == email && u.Password.Equals(password))
-                .FirstOrDefaultAsync();
-
-            return user?.Id ?? Guid.Empty;
+            throw new NotImplementedException("Method available");
         }
 
         public async Task<Domain.Model.User> Get(Guid id)
         {
-            var entity = await this._context.Users.Where(u => u.Id.Equals(id)).FirstOrDefaultAsync();
-
-            return UserEntityToUserDomainMapper.MapFrom(entity);
+            throw new NotImplementedException("Method available");
         }
 
         public async Task<IEnumerable<Domain.Model.User>> GetAll()
         {
-            var entities = await this._context.Users.ToListAsync();
-
-            return entities.Select(UserEntityToUserDomainMapper.MapFrom);
+            throw new NotImplementedException("Method available");
         }
 
         public async Task Insert(Domain.Model.User entity)
         {
-            await this._context.Users.AddAsync(UserDomainToUserEntityMapper.MapFrom(entity));
+            var sql = new StringBuilder();
+            sql.Append($"INSERT INTO {table}");
+            sql.Append(" (Id, Name, Gender, Email, Password, CreatedOn)");
+            sql.Append(" VALUES(@id, @name, @gender, @email, @password, @createdOn)");
 
-            await this._context.SaveChangesAsync();
+            await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+            connection.Open();
+
+            var dictionary = new Dictionary<string, object>
+            {
+                {"@id", entity.Id}, 
+                {"@name", entity.Name}, 
+                {"@gender", entity.Gender},
+                {"@email", entity.Email},
+                {"@password", entity.Password},
+                {"@createdOn", entity.CreatedOn}
+            };
+
+            var parameters = new DynamicParameters(dictionary);
+            
+            await connection.ExecuteScalarAsync(sql.ToString(), parameters);
 
             await Task.CompletedTask;
         }
 
         public async Task Update(Guid id, Domain.Model.User model)
         {
-            var entity = UserDomainToUserEntityMapper.MapFrom(model);
-            var user = this._context.Users.FirstOrDefault(u => u.Id.Equals(id));
-
-            if (user != null)
-            {
-                user.Name = entity.Name;
-                user.Email = entity.Email;
-                user.Password = entity.Password;
-                user.CreatedOn = entity.CreatedOn;
-                user.UpdatedOn = entity.UpdatedOn;
-
-                this._context.Users.Update(user);
-            }
-
-            await this._context.SaveChangesAsync();
-
-            await Task.CompletedTask;
+            throw new NotImplementedException("Method available");
         }
     }
    

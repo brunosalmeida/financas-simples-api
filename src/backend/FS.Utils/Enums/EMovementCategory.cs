@@ -1,14 +1,16 @@
 namespace FS.Utils.Enums
 {
-    public enum ECategory
+    public enum EMovementCategory
     {
         None,
         Home,
         Supermarket,
         Health,
         Clothes,
-        Selfcare,
+        SelfCare,
         Food,
+        Pet,
+        Transport,
         Other
     }
 }

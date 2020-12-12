@@ -6,6 +6,8 @@ using FS.Domain.Model;
 
 namespace FS.Domain.Core.Interfaces
 {
+    using System.Data;
+
     public interface IRepository<T> where T : class
     {
         Task<T> Get(Guid id);

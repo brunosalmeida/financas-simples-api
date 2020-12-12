@@ -1,11 +1,9 @@
 namespace FS.Api.Application.Commands.Handlers
 {
-    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using Command;
     using DataObject.User;
-    using Domain.Core.Interfaces;
     using Domain.Core.Services;
     using Domain.Model;
     using MediatR;
@@ -22,20 +20,14 @@ namespace FS.Api.Application.Commands.Handlers
 
         public async Task<UserAccount> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            if (!IsValid(command)) return null;
-
+           
             var password = PasswordHelper.Encrypt(command.Password);
 
-            var user = new User(command.Name, command.Email, password);
+            var user = new User(command.Name, command.Email, password, command.Gender);
 
             var userAccount = await _userAccountService.Create(user);
             
             return userAccount;
         }
-
-
-        private bool IsValid(CreateUserCommand command) =>
-            !string.IsNullOrEmpty(command.Name) && !string.IsNullOrEmpty(command.Email) &&
-            !string.IsNullOrEmpty(command.Password);
     }
 }

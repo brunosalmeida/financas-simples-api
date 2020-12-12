@@ -2,7 +2,7 @@
 
 namespace FS.Domain.Model.Validators
 {
-    public class ExpenseValidator : AbstractValidator<Expense>
+    public class ExpenseValidator : AbstractValidator<Moviment>
     {
         public ExpenseValidator()
         {

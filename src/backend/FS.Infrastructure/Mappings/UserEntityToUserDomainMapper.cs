@@ -2,7 +2,7 @@
 
 namespace FS.Data.Mappings
 {
-    public class UserEntityToUserDomainMapper
+    public static class UserEntityToUserDomainMapper
     {
         public static FS.Domain.Model.User MapFrom(User entity)
         {
@@ -13,6 +13,7 @@ namespace FS.Data.Mappings
                 entity.Name,
                 entity.Email,
                 entity.Password,
+                entity.Gender,
                 entity.CreatedOn,
                 entity.UpdatedOn.GetValueOrDefault());
         }

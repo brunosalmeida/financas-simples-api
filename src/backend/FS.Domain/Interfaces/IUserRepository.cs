@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FS.Domain.Core.Interfaces
 {
-    public interface IUserRepository : IRepository<User>, IDisposable
+    public interface IUserRepository : IRepository<User>
     {
         Task<Guid> GetUserByUsernameAndPassword(string name, string password);
     }

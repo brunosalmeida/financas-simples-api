@@ -41,7 +41,7 @@
         [HttpPost("user")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
-            var command = new CreateUserCommand(request.Name, request.Email, request.Password);
+            var command = new CreateUserCommand(request.Name, request.Email, request.Password, request.Gender);
 
             var result = await _mediator.Send(command);
 
