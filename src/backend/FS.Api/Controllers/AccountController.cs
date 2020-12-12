@@ -3,6 +3,7 @@ namespace FS.Api.Controllers
     using System;
     using System.Threading.Tasks;
     using Application.Commands.Command;
+    using Application.Queries.Query;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,16 @@ namespace FS.Api.Controllers
         [HttpGet("account/user/{id}")]
         public async Task<IActionResult> GetAccountByUserId(Guid id)
         {
-            return Ok();
+            var userInfo = this.GetUserInfo();
+            
+            if(userInfo is null)
+                return BadRequest("No token found!");
+            
+            var query = new GetAccountByUserIdQuery(userInfo.UserId);
+
+            var result = await _mediator.Send(query);
+            
+            return Ok(result);
         }
 
         [HttpPost("account")]

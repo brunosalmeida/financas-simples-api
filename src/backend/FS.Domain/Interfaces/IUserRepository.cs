@@ -1,13 +1,10 @@
-﻿using FS.Domain.Core.Interfaces;
-using FS.Domain.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-
-namespace FS.Domain.Core.Interfaces
+﻿namespace FS.Domain.Core.Interfaces
 {
-    public interface IUserRepository : IRepository<User>
+    using FS.Domain.Model;
+    using System;
+    using System.Threading.Tasks;
+
+    public interface IUserRepository : IGet<User>, ICreate<User>, IDelete<User>, IUpdate<User>
     {
         Task<Guid> GetUserByUsernameAndPassword(string name, string password);
     }

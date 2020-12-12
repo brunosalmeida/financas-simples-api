@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FS.Domain.Model;
-
-namespace FS.Domain.Core.Interfaces
+﻿namespace FS.Domain.Core.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using FS.Domain.Model;
+    
     public interface IMovimentRepository : IGet<Moviment>, ICreate<Moviment>, IDelete<Moviment>, IUpdate<Moviment>
     {
-        Task<IEnumerable<Moviment>> GetExpensesByAccount(Guid accountId);
+        Task<IEnumerable<Moviment>> GetMovimentsByAccount(Guid userId, Guid accountId);
     }
 }

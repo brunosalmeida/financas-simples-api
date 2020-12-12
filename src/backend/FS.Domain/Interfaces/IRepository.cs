@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using FS.Domain.Model;
-
-namespace FS.Domain.Core.Interfaces
+﻿namespace FS.Domain.Core.Interfaces
 {
-    using System.Data;
+    using System;
+    using System.Threading.Tasks;
 
     public interface IDelete<T> where T : class
     {

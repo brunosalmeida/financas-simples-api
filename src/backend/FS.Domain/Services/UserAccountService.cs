@@ -2,15 +2,14 @@ namespace FS.Domain.Core.Services
 {
     using System;
     using System.Threading.Tasks;
+    using Core.Interfaces;
     using DataObject.User;
-    using Interfaces;
     using Model;
-    using Utils.Helpers;
 
     public class UserAccountService : IUserAccountService
     {
-        public IAccountRepository _accountRepository { get; private set; }
-        public IUserRepository _userRepository { get; private set; }
+        private readonly IAccountRepository _accountRepository;
+        private readonly IUserRepository _userRepository;
 
         public UserAccountService(IAccountRepository accountRepository, IUserRepository userRepository)
         {

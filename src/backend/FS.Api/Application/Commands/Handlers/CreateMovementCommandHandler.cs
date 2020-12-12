@@ -34,10 +34,9 @@ namespace FS.Api.Application.Commands.Handlers
                 throw new Exception("Invalid account");
 
             var movement = new Moviment(command.Value, command.Description, (EMovementCategory)command.Category,
-                (EMovementType)command.Type,
-                command.AccountId);
+                (EMovementType)command.Type, command.AccountId, command.UserId);
 
-            var expenseValidator = new ExpenseValidator();
+            var expenseValidator = new MovimentValidator();
             var result = await expenseValidator.ValidateAsync(movement, default);
 
             if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));

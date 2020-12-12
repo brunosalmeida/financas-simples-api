@@ -26,7 +26,7 @@ namespace FS.Api.Application.Commands.Handlers
             movement.SetDescription(command.Description); 
             movement.SetExpenseType((EMovementType)command.Type);
             
-            var expenseValidator = new ExpenseValidator();
+            var expenseValidator = new MovimentValidator();
             var result = await expenseValidator.ValidateAsync(movement, default);
 
             if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));

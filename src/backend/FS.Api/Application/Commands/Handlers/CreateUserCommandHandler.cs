@@ -4,6 +4,7 @@ namespace FS.Api.Application.Commands.Handlers
     using System.Threading.Tasks;
     using Command;
     using DataObject.User;
+    using Domain.Core.Interfaces;
     using Domain.Core.Services;
     using Domain.Model;
     using MediatR;

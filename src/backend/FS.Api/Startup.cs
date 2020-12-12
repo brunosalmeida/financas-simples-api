@@ -108,11 +108,11 @@ namespace FS.Api
 
             services.AddTransient<IValidator<User>, UserValidator>();
             services.AddTransient<IValidator<Account>, AccountValidator>();
-            services.AddTransient<IValidator<Moviment>, ExpenseValidator>();
+            services.AddTransient<IValidator<Moviment>, MovimentValidator>();
                 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
-            services.AddTransient<IMovimentRepository, ExpenseRepository>();
+            services.AddTransient<IMovimentRepository, MovimentRepository>();
 
             services.AddTransient<IUserAccountService, UserAccountService>();
             

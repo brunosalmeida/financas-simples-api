@@ -1,4 +1,4 @@
-namespace FS.Domain.Core.Services
+namespace FS.Domain.Core.Interfaces
 {
     using System.Threading.Tasks;
     using DataObject.User;
