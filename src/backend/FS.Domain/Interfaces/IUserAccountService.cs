@@ -6,6 +6,6 @@ namespace FS.Domain.Core.Interfaces
 
     public interface IUserAccountService
     {
-        Task<UserAccount> Create(User user);
+        Task<UserAccount> CreateUserAndAccount(User user);
     }
 }

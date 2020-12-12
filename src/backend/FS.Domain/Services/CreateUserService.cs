@@ -6,18 +6,18 @@ namespace FS.Domain.Core.Services
     using DataObject.User;
     using Model;
 
-    public class UserAccountService : IUserAccountService
+    public class CreateUserService : IUserAccountService
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IUserRepository _userRepository;
 
-        public UserAccountService(IAccountRepository accountRepository, IUserRepository userRepository)
+        public CreateUserService(IAccountRepository accountRepository, IUserRepository userRepository)
         {
             _accountRepository = accountRepository;
             _userRepository = userRepository;
         }
 
-        public async Task<UserAccount> Create(User user)
+        public async Task<UserAccount> CreateUserAndAccount(User user)
         {
             try
             {

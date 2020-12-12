@@ -6,7 +6,6 @@ namespace FS.Api.Application.Commands.Handlers
     using Command;
     using DataObject.User;
     using Domain.Core.Interfaces;
-    using Domain.Core.Services;
     using Domain.Model;
     using Domain.Model.Validators;
     using MediatR;
@@ -32,7 +31,7 @@ namespace FS.Api.Application.Commands.Handlers
 
             if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));
             
-            var userAccount = await _userAccountService.Create(user);
+            var userAccount = await _userAccountService.CreateUserAndAccount(user);
             
             return userAccount;
         }
