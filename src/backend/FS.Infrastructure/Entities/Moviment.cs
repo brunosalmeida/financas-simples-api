@@ -10,7 +10,7 @@ namespace FS.Data.Entities
         public decimal Value { get; set; }
         public string Description { get; set; }
         public Account Account { get; set; }
-        public EMovementCategory Category { get; set; }
-        public EMovementType Type { get;  set; }
+        public EMovimentCategory Category { get; set; }
+        public EMovimentType Type { get;  set; }
     }
 }

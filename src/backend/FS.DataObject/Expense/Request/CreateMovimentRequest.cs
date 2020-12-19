@@ -2,7 +2,7 @@ namespace FS.DataObject.Expense.Request
 {
     using System;
 
-    public class CreateExpenseRequest
+    public class CreateMovimentRequest
     {
         public string Description { get; set; }
         public decimal Value { get; set; }

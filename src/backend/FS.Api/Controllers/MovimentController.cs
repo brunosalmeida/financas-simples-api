@@ -12,19 +12,19 @@ namespace FS.Api.Controllers
     [Authorize]
     [ApiController]
     [Route("v1")]
-    public class ExpenseController : BaseController
+    public class MovimentController : BaseController
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<ExpenseController> _logger;
+        private readonly ILogger<MovimentController> _logger;
 
-        public ExpenseController(IMediator mediator, ILogger<ExpenseController> logger)
+        public MovimentController(IMediator mediator, ILogger<MovimentController> logger)
         {
             _mediator = mediator;
             _logger = logger;
         }
 
-        [HttpPost("user/{userId}/account")]
-        public async Task<IActionResult> CreateExpense(Guid userId, [FromBody] CreateExpenseRequest request)
+        [HttpPost("user/{userId}/account/moviment")]
+        public async Task<IActionResult> CreateMoviment(Guid userId, [FromBody] CreateMovimentRequest request)
         {
             var userInfo = this.GetUserInfo();
 
@@ -34,16 +34,16 @@ namespace FS.Api.Controllers
             if (request is null)
                 return BadRequest("Request is null");
 
-            var command = new CreateExpenseCommand(userInfo.UserId, userInfo.AccountId, request.Description, request.Value,
+            var command = new CreateMovimentCommand(userInfo.UserId, userInfo.AccountId, request.Description, request.Value,
                 request.Category, request.Type);
 
             var result = await _mediator.Send(command);
 
-            return Created($"user/{userId}/expense/{result}", new {id = result});
+            return Created($"user/{userId}/moviment/{result}", new {id = result});
         }
         
-        [HttpPut("user/{userId}/account/{expenseId}")]
-        public async Task<IActionResult> EditExpense(Guid userId, Guid expenseId, [FromBody] CreateExpenseRequest request)
+        [HttpPut("user/{userId}/account/moviment/{movimentId}")]
+        public async Task<IActionResult> EditMoviment(Guid userId, Guid movimentId, [FromBody] CreateMovimentRequest request)
         {
             var userInfo = this.GetUserInfo();
 
@@ -53,12 +53,12 @@ namespace FS.Api.Controllers
             if (request is null)
                 return BadRequest("Request is null");
 
-            var command = new CreateExpenseCommand(userInfo.UserId, userInfo.AccountId, request.Description, request.Value,
+            var command = new CreateMovimentCommand(userInfo.UserId, userInfo.AccountId, request.Description, request.Value,
                 request.Category, request.Type);
 
             var result = await _mediator.Send(command);
 
-            return Created($"user/{userId}/expense/{result}", new {id = result});
+            return Created($"user/{userId}/moviment/{result}", new {id = result});
         }
     }
 }
