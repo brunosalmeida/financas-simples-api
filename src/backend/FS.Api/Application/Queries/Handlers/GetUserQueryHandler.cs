@@ -20,7 +20,7 @@ namespace FS.Api.Application.Queries.Handlers
         {
             var user = await this._userRepository.Get(request.Id);
             
-            return new GetUserResponse(user.Id, user.Name, user.Email, user.Password);
+            return new GetUserResponse(user.Id, user.Name, user.Email, user.Password, user.Gender, user.BirthDate);
         }
     }
 }
