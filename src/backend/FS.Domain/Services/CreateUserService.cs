@@ -4,6 +4,7 @@ namespace FS.Domain.Core.Services
     using System.Threading.Tasks;
     using Core.Interfaces;
     using DataObject.User;
+    using Interfaces.Services;
     using Model;
 
     public class CreateUserService : IUserAccountService
