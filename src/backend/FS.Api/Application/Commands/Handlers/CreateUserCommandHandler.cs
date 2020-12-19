@@ -6,6 +6,7 @@ namespace FS.Api.Application.Commands.Handlers
     using Command;
     using DataObject.User;
     using Domain.Core.Interfaces;
+    using Domain.Core.Interfaces.Services;
     using Domain.Model;
     using Domain.Model.Validators;
     using MediatR;

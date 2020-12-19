@@ -2,6 +2,7 @@ namespace FS.Api
 {
     using System;
     using System.Text;
+    using Domain.Core.Interfaces.Services;
     using Domain.Core.Services;
     using FS.Data.Repositories;
     using FS.Domain.Core.Interfaces;
@@ -28,7 +29,7 @@ namespace FS.Api
                 .SetBasePath(hostEnvironment.ContentRootPath)
                 .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true, true)
                 .AddEnvironmentVariables();
-            
+
             Configuration = builder.Build();
         }
 
@@ -37,7 +38,6 @@ namespace FS.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -51,29 +51,29 @@ namespace FS.Api
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
-
                     ValidIssuer = Configuration["Jwt:Issuer"],
                     ValidAudience = Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey
                         (Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
-            
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "Finanças Simples",
-                    Description = "Finanças Simples API",
-                    Contact = new OpenApiContact
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
                     {
-                        Name = "Bruno Almeida",
-                        Email = string.Empty,
-                        Url = new Uri("https://github.com/brunosalmeida"),
-                    }
-                });
-                
+                        Version = "v1",
+                        Title = "Finanças Simples",
+                        Description = "Finanças Simples API",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Bruno Almeida",
+                            Email = string.Empty,
+                            Url = new Uri("https://github.com/brunosalmeida"),
+                        }
+                    });
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "Ex: Bearer {token here}",
@@ -89,33 +89,30 @@ namespace FS.Api
                     {
                         new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
+                            Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "Bearer"}
                         },
-                        new string[]{}
+                        new string[] { }
                     }
                 });
-
             });
-            
+
             services.AddMvc()
                 .AddFluentValidation();
-         
+
             services.AddMediatR(typeof(Startup));
 
             services.AddTransient<IValidator<User>, UserValidator>();
             services.AddTransient<IValidator<Account>, AccountValidator>();
             services.AddTransient<IValidator<Moviment>, MovimentValidator>();
-                
+
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IMovimentRepository, MovimentRepository>();
+            services.AddTransient<IBalanceRepository, BalanceRepository>();
 
             services.AddTransient<IUserAccountService, CreateUserService>();
-            
+            services.AddTransient<ITransactionService, TransactionService>();
+
             services.AddControllers();
         }
 
@@ -138,12 +135,12 @@ namespace FS.Api
             });
 
             app.UseRouting();
-            
+
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCustomExceptionHandler();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

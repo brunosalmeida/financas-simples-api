@@ -30,7 +30,7 @@ create table Balance
 		references Accounts,
 	UserId uniqueidentifier not null
 		references Users,
-	Balance decimal not null,
+	Value decimal not null,
 	CreatedOn datetime not null,
 	UpdatedOn datetime
 )
