@@ -25,7 +25,7 @@ namespace FS.Api.Application.Commands.Handlers
         {
             var password = PasswordHelper.Encrypt(command.Password);
 
-            var user = new User(command.Name, command.Email, password, command.Gender);
+            var user = new User(command.Name, command.Email, password, command.Gender, command.BirthDate);
             
             var userValidator = new UserValidator();
             var result = await userValidator.ValidateAsync(user, default);

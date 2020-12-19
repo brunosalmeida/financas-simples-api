@@ -1,7 +1,5 @@
-namespace FS.DataObject.Expense.Request
+namespace FS.DataObject.Moviment.Request
 {
-    using System;
-
     public class CreateMovimentRequest
     {
         public string Description { get; set; }

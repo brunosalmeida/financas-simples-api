@@ -17,6 +17,7 @@ namespace FS.Data.Mappings
                 entity.Email,
                 entity.Password,
                 entity.Gender,
+                entity.BirthDate,
                 entity.CreatedOn,
                 entity.UpdatedOn.GetValueOrDefault());
         }
@@ -29,6 +30,7 @@ namespace FS.Data.Mappings
                 e.Email,
                 e.Password,
                 e.Gender,
+                e.BirthDate,
                 e.CreatedOn,
                 e.UpdatedOn.GetValueOrDefault()));
         }

@@ -3,7 +3,7 @@ namespace FS.Api.Controllers
     using System;
     using System.Threading.Tasks;
     using Application.Commands.Command;
-    using DataObject.Expense.Request;
+    using DataObject.Moviment.Request;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

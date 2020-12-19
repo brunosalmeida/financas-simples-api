@@ -1,4 +1,4 @@
-namespace FS.DataObject.Expense.Response
+namespace FS.DataObject.Moviment.Response
 {
     using System;
 
