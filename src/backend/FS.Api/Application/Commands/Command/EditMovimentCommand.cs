@@ -3,9 +3,9 @@ namespace FS.Api.Application.Commands.Command
     using System;
     using MediatR;
 
-    public class EditMovementCommand: IRequest<Guid>
+    public class EditMovimentCommand: IRequest<Guid>
     {
-        public EditMovementCommand(Guid userId, Guid expenseId, decimal value, string description, int category, int type)
+        public EditMovimentCommand(Guid userId, Guid expenseId, decimal value, string description, int category, int type)
         {
             UserId = userId;
             MovementId = expenseId;

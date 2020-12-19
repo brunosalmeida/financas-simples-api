@@ -10,13 +10,13 @@ namespace FS.Api.Application.Commands.Handlers
     using MediatR;
     using Utils.Enums;
 
-    public class CreateMovementCommandHandler : IRequestHandler<CreateExpenseCommand, Guid>
+    public class CreateMovimentCommandHandler : IRequestHandler<CreateMovimentCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IMovimentRepository _expenseRepository;
 
-        public CreateMovementCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
+        public CreateMovimentCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
             IMovimentRepository expenseRepository)
         {
             _userRepository = repository;
@@ -24,7 +24,7 @@ namespace FS.Api.Application.Commands.Handlers
             _expenseRepository = expenseRepository;
         }
 
-        public async Task<Guid> Handle(CreateExpenseCommand command,
+        public async Task<Guid> Handle(CreateMovimentCommand command,
             CancellationToken cancellationToken)
         {
             if (await _userRepository.Get(command.UserId) is var user && user is null)
@@ -33,17 +33,20 @@ namespace FS.Api.Application.Commands.Handlers
             if (await _accountRepository.Get(command.AccountId) is var account && account is null)
                 throw new Exception("Invalid account");
 
-            var movement = new Moviment(command.Value, command.Description, (EMovementCategory)command.Category,
-                (EMovementType)command.Type, command.AccountId, command.UserId);
+            var moviment = new Moviment(command.Value, command.Description, (EMovimentCategory)command.Category,
+                (EMovimentType)command.Type, command.AccountId, command.UserId);
 
             var movimentValidator = new MovimentValidator();
-            var result = await movimentValidator.ValidateAsync(movement, default);
+            var result = await movimentValidator.ValidateAsync(moviment, default);
 
             if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));
 
-            await _expenseRepository.Insert(movement);
+            
+            
+            
+            await _expenseRepository.Insert(moviment);
 
-            return movement.Id;
+            return moviment.Id;
         }
     }
 }

@@ -9,22 +9,22 @@ namespace FS.Api.Application.Commands.Handlers
     using MediatR;
     using Utils.Enums;
 
-    public class EditExpenseCommandHandler : IRequestHandler<EditMovementCommand, Guid>
+    public class EditMovimentCommandHandler : IRequestHandler<EditMovimentCommand, Guid>
     {
         private readonly IMovimentRepository _expenseRepository;
 
-        public EditExpenseCommandHandler(IMovimentRepository expenseRepository)
+        public EditMovimentCommandHandler(IMovimentRepository expenseRepository)
         {
             _expenseRepository = expenseRepository;
         }
 
-        public async Task<Guid> Handle(EditMovementCommand command, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(EditMovimentCommand command, CancellationToken cancellationToken)
         {
             var movement = await _expenseRepository.Get(command.MovementId);
-            movement.SetCategory((EMovementCategory)command.Category); 
+            movement.SetCategory((EMovimentCategory)command.Category); 
             movement.SetValue(command.Value); 
             movement.SetDescription(command.Description); 
-            movement.SetExpenseType((EMovementType)command.Type);
+            movement.SetMovimentType((EMovimentType)command.Type);
             
             var movimentValidatorValidator = new MovimentValidator();
             var result = await movimentValidatorValidator.ValidateAsync(movement, default);

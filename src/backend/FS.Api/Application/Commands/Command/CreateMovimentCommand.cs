@@ -3,9 +3,9 @@ namespace FS.Api.Application.Commands.Command
     using System;
     using MediatR;
 
-    public class CreateExpenseCommand : IRequest<Guid>
+    public class CreateMovimentCommand : IRequest<Guid>
     {
-        public CreateExpenseCommand(Guid userId, Guid accountId, string description, decimal value, int category, int type)
+        public CreateMovimentCommand(Guid userId, Guid accountId, string description, decimal value, int category, int type)
         {
             UserId = userId;
             AccountId = accountId;
