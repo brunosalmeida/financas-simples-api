@@ -90,8 +90,8 @@
         {
             var sql = new StringBuilder();
             sql.Append($"INSERT INTO {table}");
-            sql.Append(" (Id, Name, Gender, Email, Password, CreatedOn)");
-            sql.Append(" VALUES(@id, @name, @gender, @email, @password, @createdOn)");
+            sql.Append(" (Id, Name, Gender,  BirthDate, Email, Password, CreatedOn)");
+            sql.Append(" VALUES(@id, @name, @gender, @birthDate, @email, @password, @createdOn)");
 
             await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
             connection.Open();
@@ -101,6 +101,7 @@
                 {"@id", model.Id},
                 {"@name", model.Name},
                 {"@gender", model.Gender},
+                {"@birthDate", model.BirthDate},
                 {"@email", model.Email},
                 {"@password", model.Password},
                 {"@createdOn", model.CreatedOn}
@@ -117,7 +118,7 @@
         {
             var sql = new StringBuilder();
             sql.Append($"UPDATED {table}");
-            sql.Append(" SET Name = @name, Gender = @gender, Email = @email, Password = @password, UpdateOn = UpdateOn");
+            sql.Append(" SET Name = @name, Gender = @gender, BirthDate = @birthDate, Email = @email, Password = @password, UpdateOn = UpdateOn");
             sql.Append(" WHERE Id = @id");
 
             await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
@@ -128,6 +129,7 @@
                 {"@id", model.Id},
                 {"@name", model.Name},
                 {"@gender", model.Gender},
+                {"@birthDate", model.BirthDate},
                 {"@email", model.Email},
                 {"@password", model.Password},
                 {"@updateOn", model.UpdatedOn}

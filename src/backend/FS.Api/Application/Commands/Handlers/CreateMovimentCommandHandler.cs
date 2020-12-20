@@ -5,6 +5,7 @@ namespace FS.Api.Application.Commands.Handlers
     using System.Threading.Tasks;
     using Command;
     using Domain.Core.Interfaces;
+    using Domain.Core.Interfaces.Services;
     using Domain.Model;
     using Domain.Model.Validators;
     using MediatR;
@@ -14,14 +15,14 @@ namespace FS.Api.Application.Commands.Handlers
     {
         private readonly IUserRepository _userRepository;
         private readonly IAccountRepository _accountRepository;
-        private readonly IMovimentRepository _expenseRepository;
+        private readonly ITransactionService _transactionService;
 
         public CreateMovimentCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
-            IMovimentRepository expenseRepository)
+            ITransactionService transactionService)
         {
             _userRepository = repository;
             _accountRepository = accountRepository;
-            _expenseRepository = expenseRepository;
+            _transactionService = transactionService;
         }
 
         public async Task<Guid> Handle(CreateMovimentCommand command,
@@ -41,12 +42,9 @@ namespace FS.Api.Application.Commands.Handlers
 
             if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));
 
-            
-            
-            
-            await _expenseRepository.Insert(moviment);
+            var balance = await _transactionService.CreateOrUpdateBalance(moviment);
 
-            return moviment.Id;
+            return balance.Id;
         }
     }
 }

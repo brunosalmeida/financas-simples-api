@@ -22,7 +22,7 @@ namespace FS.Data.Repositories
         }
         public async Task<FS.Domain.Model.Balance> Get(Guid userId, Guid accountId)
         {
-            var sql = $"SELECT Id, Value, CreatedOn, UpdatedOn FROM {table} WHERE UserId = @userId AND AccountId = @accountId";
+            var sql = $"SELECT Id, UserId, AccountId, Value, CreatedOn, UpdatedOn FROM {table} WHERE UserId = @userId AND AccountId = @accountId";
             
             await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
             connection.Open();
@@ -35,14 +35,14 @@ namespace FS.Data.Repositories
 
             var parameters = new DynamicParameters(dictionary);
             
-            var balance = await connection.QueryFirstAsync<Balance>(sql, parameters);
+            var balance = await connection.QueryFirstOrDefaultAsync<Balance>(sql, parameters);
 
             return BalanceEntityToBalanceDomainMapper.MapFrom(balance);
         }
 
         public async Task Update(Guid id, FS.Domain.Model.Balance model)
         {
-            var sql = $"UPDATE SET Value = @value, UpdatedOn = @updatedOn FROM {table} WHERE ID = @id";
+            var sql = $"UPDATE {table} SET Value = @value, UpdatedOn = @updatedOn WHERE ID = @id";
             
             await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
             connection.Open();
@@ -73,7 +73,7 @@ namespace FS.Data.Repositories
             {
                 {"@id", model.Id},
                 {"@accountId", model.AccountId},
-                {"@userId", model.UpdatedOn},
+                {"@userId", model.UserId},
                 {"@value", model.Value},
                 {"@createdOn", model.CreatedOn},
             };

@@ -2,10 +2,13 @@ namespace FS.Api.Application.Commands.Command
 {
     using System;
     using MediatR;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+    using Utils.Enums;
 
     public class CreateMovimentCommand : IRequest<Guid>
     {
-        public CreateMovimentCommand(Guid userId, Guid accountId, string description, decimal value, int category, int type)
+        public CreateMovimentCommand(Guid userId, Guid accountId, string description, decimal value, EMovimentCategory category, EMovimentType type)
         {
             UserId = userId;
             AccountId = accountId;
@@ -19,7 +22,11 @@ namespace FS.Api.Application.Commands.Command
         public Guid AccountId { get; }
         public string Description { get; }
         public decimal Value { get; }
-        public int Category { get; }
-        public int Type { get; }
+        
+        [JsonConverter(typeof(StringEnumConverter))]
+        public EMovimentCategory Category { get; }
+        
+        [JsonConverter(typeof(StringEnumConverter))]
+        public EMovimentType Type { get; }
     }
 }

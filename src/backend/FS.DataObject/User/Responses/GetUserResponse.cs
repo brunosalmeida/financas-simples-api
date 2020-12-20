@@ -2,6 +2,8 @@ using System;
 
 namespace FS.DataObject.User.Responses
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using Utils.Enums;
 
     public class GetUserResponse
@@ -11,6 +13,7 @@ namespace FS.DataObject.User.Responses
 
         public DateTime BirthDate { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public EGender Gender { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
