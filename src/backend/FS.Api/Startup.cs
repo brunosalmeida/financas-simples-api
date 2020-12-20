@@ -20,6 +20,7 @@ namespace FS.Api
     using FluentValidation;
     using FluentValidation.AspNetCore;
     using Helpers;
+    using Newtonsoft.Json.Converters;
 
     public class Startup
     {
@@ -113,7 +114,11 @@ namespace FS.Api
             services.AddTransient<IUserAccountService, CreateUserService>();
             services.AddTransient<ITransactionService, TransactionService>();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson((options => 
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter())));
+            
+            services.AddSwaggerGenNewtonsoftSupport();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

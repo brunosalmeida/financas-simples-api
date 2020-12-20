@@ -39,7 +39,7 @@ namespace FS.Api.Controllers
 
             var result = await _mediator.Send(command);
 
-            return Created($"user/{userId}/moviment/{result}", new {id = result});
+            return Created($"user/{userId}/account/balance/{result}", new {id = result});
         }
         
         [HttpPut("user/{userId}/account/moviment/{movimentId}")]

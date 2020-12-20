@@ -6,14 +6,23 @@
 
     <ItemGroup>
       <Compile Remove="Class1.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Account\Request" />
+      <Compile Remove="Account\**" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\FS.Utils\FS.Utils.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Account\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Account\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
     </ItemGroup>
 
 </Project>

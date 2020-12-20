@@ -25,12 +25,12 @@ namespace FS.Domain.Core.Services
 
                 if (userBalance is null)
                 {
-                    CreateMoviment(moviment);
+                    await CreateMoviment(moviment);
                     return await FirstBalance(moviment.UserId, moviment.AccountId, moviment.Value);
                 }
 
                 userBalance.UpdateBalance(moviment.Value);
-                UpdateBalance(userBalance);
+                await UpdateBalance(userBalance);
 
                 return userBalance;
             }
