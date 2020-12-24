@@ -21,11 +21,11 @@ namespace FS.Domain.Core.Services
         {
             try
             {
+                await CreateMoviment(moviment);
                 var userBalance = await _balanceRepository.Get(moviment.UserId, moviment.AccountId);
-
+                
                 if (userBalance is null)
                 {
-                    await CreateMoviment(moviment);
                     return await FirstBalance(moviment.UserId, moviment.AccountId, moviment.Value);
                 }
 
