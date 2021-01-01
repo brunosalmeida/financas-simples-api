@@ -2,6 +2,7 @@
 {
     using System;
     using FS.Utils.Enums;
+    using Newtonsoft.Json;
 
     public class Moviment : Base
     {
@@ -36,6 +37,20 @@
             UserId = userId;
         }
 
+        //Ctor only for Hangfire works.
+        [JsonConstructor]
+        public Moviment(Guid id, decimal value, string description, EMovimentCategory category, EMovimentType type,
+            Guid accountId, Guid userId, DateTime createdOn) 
+            : base(id, createdOn, null)
+        {
+            Value = value;
+            Description = description;
+            Category = category;
+            Type = type;
+            AccountId = accountId;
+            UserId = userId;
+        }
+        
         public void SetCategory(EMovimentCategory category) => this.Category = category;
 
         public void SetMovimentType(EMovimentType type)
