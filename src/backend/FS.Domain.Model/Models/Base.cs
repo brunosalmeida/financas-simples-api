@@ -30,5 +30,9 @@ namespace FS.Domain.Model
         {
             this.UpdatedOn = DateTime.UtcNow;
         }
+        public void OverrideCreatedDate(DateTime date)
+        {
+            this.CreatedOn = date;
+        }
     }
 }

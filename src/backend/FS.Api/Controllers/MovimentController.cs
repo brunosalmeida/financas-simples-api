@@ -60,5 +60,24 @@ namespace FS.Api.Controllers
 
             return Created($"user/{userId}/moviment/{result}", new {id = result});
         }
+        
+        [HttpPost("user/{userId}/account/moviment/installment")]
+        public async Task<IActionResult> CreateInstallmentMoviment([FromRoute]Guid userId, [FromBody] CreateInstallmentMovimentRequest request)
+        {
+            var userInfo = this.GetUserInfo();
+
+            if (!userId.Equals(userInfo.UserId))
+                return BadRequest("Invalid token.");
+                
+            if (request is null)
+                return BadRequest("Request is null");
+
+            var command = new CreateInstallmentMovimentCommand(userInfo.UserId, userInfo.AccountId, request.Description, request.Value,
+                request.Months, request.StartMonth, request.Category, request.Type);
+
+            var result = await _mediator.Send(command);
+
+            return Created($"user/{userId}/account/balance/{result}", new {id = result});
+        }
     }
 }

@@ -19,6 +19,8 @@ namespace FS.Api
     using Domain.Model.Validators;
     using FluentValidation;
     using FluentValidation.AspNetCore;
+    using Hangfire;
+    using Hangfire.SqlServer;
     using Helpers;
     using Newtonsoft.Json.Converters;
 
@@ -97,6 +99,21 @@ namespace FS.Api
                 });
             });
 
+            services.AddHangfire(configuration => configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(Configuration.GetConnectionString("DatabaseConnection"), new SqlServerStorageOptions
+                {
+                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                    QueuePollInterval = TimeSpan.Zero,
+                    UseRecommendedIsolationLevel = true,
+                    DisableGlobalLocks = true
+                }));
+            
+            services.AddHangfireServer();
+
             services.AddMvc()
                 .AddFluentValidation();
 
@@ -117,8 +134,8 @@ namespace FS.Api
             services.AddControllers()
                 .AddNewtonsoftJson((options => 
                     options.SerializerSettings.Converters.Add(new StringEnumConverter())));
-            
             services.AddSwaggerGenNewtonsoftSupport();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -149,6 +166,7 @@ namespace FS.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHangfireDashboard();
             });
         }
     }

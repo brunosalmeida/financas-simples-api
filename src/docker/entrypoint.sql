@@ -70,3 +70,20 @@ CREATE TABLE financas_simples_db.dbo.Moviments
     CONSTRAINT PK_Moviment PRIMARY KEY (Id)
 )
 
+CREATE TABLE financas_simples_db.dbo.InstallmentMoviments
+(
+    Id          uniqueidentifier                                  NOT NULL,
+    Value       decimal(18, 0)                                    NOT NULL,
+    Description varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+    Category    int                                               NOT NULL,
+    [Type]      int                                               NOT NULL,
+    Month       int                                               NOT NULL,
+    StartMonth  int                                               NOT NULL,
+    EndMonth    int                                               NOT NULL,
+    InstallmentsValue  decimal(18, 0)                                    NOT NULL,
+    AccountId   uniqueidentifier                                  NOT NULL,
+    UserId      uniqueidentifier                                  NOT NULL,
+    CreatedOn   datetime                                          NOT NULL,
+    UpdatedOn   datetime                                          NULL,
+    CONSTRAINT PK_Moviment PRIMARY KEY (Id)
+)
