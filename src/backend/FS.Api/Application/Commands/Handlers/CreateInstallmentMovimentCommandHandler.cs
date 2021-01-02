@@ -77,10 +77,13 @@ namespace FS.Api.Application.Commands.Handlers
 
         private async Task ScheduleFutureMoviments(IList<Moviment> futureMoviments)
         {
+            var now = DateTime.Now;
+            var index = 1;
+            
             foreach (var moviment in futureMoviments)
             {
                 _backgroundJobClient.Schedule( () => _transactionService.CreateOrUpdateBalance(moviment),
-                    new DateTimeOffset(moviment.CreatedOn).UtcDateTime);
+                    new DateTimeOffset(now.AddMinutes(index++)).UtcDateTime);
             }
         }
     }

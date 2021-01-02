@@ -23,6 +23,6 @@ namespace FS.Domain.Model
         public int Months { get; }
         public int StartMonth { get; }
         public int EndMonth => this.StartMonth + this.Months;
-        public decimal InstallmentsValue => this.Value / this.Months;
+        public decimal InstallmentsValue =>  this.Type == EMovimentType.Expense ? (this.Value / this.Months) * -1 : (this.Value / this.Months);
     }
 }
