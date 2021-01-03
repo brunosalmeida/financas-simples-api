@@ -44,12 +44,13 @@ namespace FS.Data.Repositories
             return MovimentEntityToMovimenteDomainMapper.MapFrom(moviment);
         }
 
-        public async Task<IEnumerable<Moviment>> GetMovimentsByAccount(Guid userId, Guid accountId)
+        public async Task<IEnumerable<Moviment>> GetMovimentsByAccount(Guid userId, Guid accountId, int page, int size)
         {
             var sql = new StringBuilder();
             sql.Append($"SELECT Id, Value, Description, Category, [Type], AccountId, UserId, CreatedOn, UpdatedOn");
             sql.Append($" FROM {table} WHERE AccountId = @accountId AND UserId = @userId");
             sql.Append($" ORDER BY CreatedOn DESC");
+            sql.Append($" OFFSET @offset ROWS FETCH NEXT @next ROWS ONLY");
 
             await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
             connection.Open();
@@ -57,7 +58,9 @@ namespace FS.Data.Repositories
             var dictionary = new Dictionary<string, object>
             {
                 {"@userId", userId},
-                {"@accountId", accountId}
+                {"@accountId", accountId},
+                {"@offset", (page - 1) * size},
+                {"@next", size}
             };
 
             var parameters = new DynamicParameters(dictionary);
