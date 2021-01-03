@@ -1,30 +1,37 @@
+// unset
+
 namespace FS.Domain.Core.Services
 {
-    using System;
-    using System.Threading.Tasks;
     using Interfaces;
     using Interfaces.Services;
     using Model;
+    using System;
+    using System.ComponentModel.Design;
+    using System.Threading.Tasks;
     using Utils.Enums;
 
-    public class TransactionService : ITransactionService
+    public class InvestmentService : IInvestmentService
     {
         private readonly IBalanceRepository _balanceRepository;
         private readonly IMovimentRepository _movimentRepository;
 
-        public TransactionService(IBalanceRepository balanceRepository, IMovimentRepository movimentRepository)
+        public InvestmentService(IBalanceRepository balanceRepository, IMovimentRepository movimentRepository)
         {
             _balanceRepository = balanceRepository;
             _movimentRepository = movimentRepository;
         }
 
-        public async Task<Balance> CreateOrUpdateBalance(Moviment moviment)
+
+        public async Task<Balance> CreateOrUpdateBalance(Investment investment)
         {
             try
             {
+                var moviment = new Moviment(investment.Value, investment.Description, EMovimentCategory.Investment,
+                    EMovimentType.Investment, investment.AccountId, investment.UserId);
+
                 await CreateMoviment(moviment);
                 var userBalance = await _balanceRepository.Get(moviment.UserId, moviment.AccountId);
-                
+
                 if (userBalance is null)
                 {
                     return await FirstBalance(moviment.UserId, moviment.AccountId, moviment.Value);
@@ -40,6 +47,7 @@ namespace FS.Domain.Core.Services
                 throw e;
             }
         }
+
         private async Task<Balance> UpdateBalance(Balance balance)
         {
             try

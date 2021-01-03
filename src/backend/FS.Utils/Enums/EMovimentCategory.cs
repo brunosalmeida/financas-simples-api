@@ -11,6 +11,7 @@ namespace FS.Utils.Enums
         Food,
         Pet,
         Transport,
+        Investment,
         Other
     }
 }

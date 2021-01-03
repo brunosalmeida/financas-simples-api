@@ -5,7 +5,6 @@ namespace FS.Data.Repositories
     using System.Threading.Tasks;
     using FS.Domain.Core.Interfaces;
     using FS.Domain.Model;
-    using System.Data;
     using System.Data.SqlClient;
     using System.Text;
     using Dapper;

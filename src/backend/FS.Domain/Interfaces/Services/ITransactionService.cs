@@ -6,5 +6,6 @@ namespace FS.Domain.Core.Interfaces.Services
     public interface ITransactionService
     {
         Task<Balance> CreateOrUpdateBalance(Moviment moviment);
+      
     }
 }

@@ -131,6 +131,7 @@ namespace FS.Api
 
             services.AddTransient<IUserAccountService, CreateUserService>();
             services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<IInvestmentService, InvestmentService>();
 
             services.AddControllers()
                 .AddNewtonsoftJson((options => 

@@ -103,5 +103,25 @@ namespace FS.Api.Controllers
             
             return Ok(result);
         }
+        
+        [HttpPost("user/{userId}/account/{accountId}/moviment/installment")]
+        public async Task<IActionResult> CreateInvestment([FromRoute] Guid userId, [FromRoute] Guid accountId,
+            [FromBody] CreateInvestmentRequest request)
+        {
+            var userInfo = this.GetUserInfo();
+
+            if (!userId.Equals(userInfo.UserId) || !accountId.Equals(userInfo.AccountId))
+                return BadRequest("Invalid token.");
+
+            if (request is null)
+                return BadRequest("Request is null");
+
+            var command = new CreateInvestmentCommand(userInfo.UserId, userInfo.AccountId, request.Description,
+                request.Value,request.Type);
+
+            var result = await _mediator.Send(command);
+
+            return Created($"user/{userId}/account/investment/balance/{result}", new {id = result});
+        }
     }
 }
