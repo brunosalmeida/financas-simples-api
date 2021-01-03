@@ -11,7 +11,7 @@ namespace FS.Api.Application.Commands.Command
     public class CreateInstallmentMovimentCommand : IRequest<Guid>
     {
         public CreateInstallmentMovimentCommand(Guid userId, Guid accountId, string description, 
-            decimal value, int months, int startMonth, EMovimentCategory category, EMovimentType type)
+            decimal value, int months, EMonths startMonth, EMovimentCategory category, EMovimentType type)
         {
             UserId = userId;
             AccountId = accountId;
@@ -29,7 +29,7 @@ namespace FS.Api.Application.Commands.Command
         public decimal Value { get; }
         public int Months { get; }
         
-        public int StartMonth { get; }
+        public EMonths StartMonth { get; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public EMovimentCategory Category { get; }

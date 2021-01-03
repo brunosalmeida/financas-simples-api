@@ -127,6 +127,7 @@ namespace FS.Api
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IMovimentRepository, MovimentRepository>();
             services.AddTransient<IBalanceRepository, BalanceRepository>();
+            services.AddTransient<IInstallmentMovimentRepository, InstallmentMovimentRepository>();
 
             services.AddTransient<IUserAccountService, CreateUserService>();
             services.AddTransient<ITransactionService, TransactionService>();

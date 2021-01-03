@@ -18,14 +18,17 @@ namespace FS.Api.Application.Commands.Handlers
         private readonly IAccountRepository _accountRepository;
         private readonly ITransactionService _transactionService;
         private readonly IBackgroundJobClient _backgroundJobClient;
+        private readonly IInstallmentMovimentRepository _installmentMovimentRepository;
 
         public CreateInstallmentMovimentCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
-            ITransactionService transactionService, IBackgroundJobClient backgroundJobClient)
+            ITransactionService transactionService, IBackgroundJobClient backgroundJobClient,
+            IInstallmentMovimentRepository installmentMovimentRepository)
         {
             _userRepository = repository;
             _accountRepository = accountRepository;
             _transactionService = transactionService;
             _backgroundJobClient = backgroundJobClient;
+            _installmentMovimentRepository = installmentMovimentRepository;
         }
 
         public async Task<Guid> Handle(CreateInstallmentMovimentCommand command,
@@ -45,9 +48,9 @@ namespace FS.Api.Application.Commands.Handlers
 
             if (!result.IsValid) throw new Exception(String.Join(" \n ", result.Errors));
 
-            var futureMoviments = SplitIntoMoviments(installmentMoviment);
+            await _installmentMovimentRepository.Insert(installmentMoviment);
             
-            //var balance = await _transactionService.CreateOrUpdateBalance(futureMoviments[0]);
+            var futureMoviments = SplitIntoMoviments(installmentMoviment);
             await this.ScheduleFutureMoviments(futureMoviments);
             
             return installmentMoviment.Id;
@@ -58,10 +61,10 @@ namespace FS.Api.Application.Commands.Handlers
             var moviments = new List<Moviment>();
             var number = 1;
             
-            for (int month = installmentMoviment.StartMonth; month < installmentMoviment.EndMonth ; month++)
+            for (int month = (int)installmentMoviment.StartMonth; month < installmentMoviment.EndMonth ; month++)
             {
                 var description = $"({number}/{installmentMoviment.Months})-Total:{installmentMoviment.Value}-{installmentMoviment.Description}";
-                var futureDate = new DateTime(installmentMoviment.CreatedOn.Year, month, installmentMoviment.CreatedOn.Day);
+                var futureDate = installmentMoviment.CreatedOn.AddMonths(month);
                 
                 var moviment = new Moviment(installmentMoviment.InstallmentsValue, description, installmentMoviment.Category,
                     installmentMoviment.Type, installmentMoviment.AccountId, installmentMoviment.UserId);
@@ -85,5 +88,6 @@ namespace FS.Api.Application.Commands.Handlers
 
             await Task.CompletedTask;
         }
+        
     }
 }

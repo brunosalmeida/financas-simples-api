@@ -10,7 +10,8 @@ namespace FS.DataObject.Moviment.Request
         public decimal Value { get; set; }
         public int Months { get; set; }
         
-        public int StartMonth { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public EMonths StartMonth { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public EMovimentCategory Category { get; set; }
