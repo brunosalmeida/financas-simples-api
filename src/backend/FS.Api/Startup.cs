@@ -21,7 +21,6 @@ namespace FS.Api
     using FluentValidation.AspNetCore;
     using Hangfire;
     using Hangfire.SqlServer;
-    using Helpers;
     using Newtonsoft.Json.Converters;
 
     public class Startup
@@ -128,6 +127,8 @@ namespace FS.Api
             services.AddTransient<IMovimentRepository, MovimentRepository>();
             services.AddTransient<IBalanceRepository, BalanceRepository>();
             services.AddTransient<IInstallmentMovimentRepository, InstallmentMovimentRepository>();
+            services.AddTransient<IInvestmentRepository, InvestmentRepository>();
+            services.AddTransient<IInvestmentBalanceRepository, InvestmentBalanceRepository>();
 
             services.AddTransient<IUserAccountService, CreateUserService>();
             services.AddTransient<ITransactionService, TransactionService>();
@@ -163,7 +164,7 @@ namespace FS.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCustomExceptionHandler();
+            //app.UseCustomExceptionHandler();
 
             app.UseEndpoints(endpoints =>
             {

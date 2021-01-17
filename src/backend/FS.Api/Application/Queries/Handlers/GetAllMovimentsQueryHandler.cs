@@ -9,8 +9,7 @@ namespace FS.Api.Application.Queries.Handlers
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class
-        GetAllMovimentsQueryHandler : IRequestHandler<GetAllMovimentsQuery, IEnumerable<GetAllMovimentResponse>>
+    public class GetAllMovimentsQueryHandler : IRequestHandler<GetAllMovimentsQuery, IEnumerable<GetAllMovimentResponse>>
     {
         private readonly IMovimentRepository _movimentRepository;
 
