@@ -47,7 +47,7 @@ namespace FS.Api.Controllers
             return Created($"user/{userId}/account/investment/balance/{result}", new {id = result});
         }
         
-        [HttpGet("user/{userId}/account/{accountId}/investment/balance")]
+        [HttpGet("user/{userId}/account/{accountId}/investment")]
         public async Task<IActionResult> GetInvestment([FromRoute] Guid userId, [FromRoute] Guid accountId,
             [FromQuery] int page = 1, [FromQuery] int size = 30)
         {

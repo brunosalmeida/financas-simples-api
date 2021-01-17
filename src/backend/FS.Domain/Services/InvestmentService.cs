@@ -33,7 +33,7 @@ namespace FS.Domain.Core.Services
             {
                 await CreateInvestment(investment);
                 
-                var userInvestmentBalance = await _balanceRepository.Get(investment.UserId, investment.AccountId);
+                var userInvestmentBalance = await _investmentBalanceRepository.Get(investment.UserId, investment.AccountId);
 
                 if (userInvestmentBalance is null)
                 {
