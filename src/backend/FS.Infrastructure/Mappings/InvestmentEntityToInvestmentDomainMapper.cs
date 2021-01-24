@@ -17,6 +17,7 @@ namespace FS.Data.Mappings
                 entity.Type,
                 entity.AccountId,
                 entity.UserId,
+                entity.MovimentId,
                 entity.CreatedOn,
                 entity.UpdatedOn.GetValueOrDefault());
         }
@@ -31,6 +32,7 @@ namespace FS.Data.Mappings
                 e.Type,
                 e.AccountId,
                 e.UserId,
+                e.MovimentId,
                 e.CreatedOn,
                 e.UpdatedOn.GetValueOrDefault()));
         }

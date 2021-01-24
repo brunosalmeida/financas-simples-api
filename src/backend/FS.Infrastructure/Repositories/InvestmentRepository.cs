@@ -24,17 +24,33 @@ namespace FS.Data.Repositories
             _configuration = configuration;
         }
         
-        public Task<Investment> Get(Guid id)
+        public async Task<Investment> Get(Guid id)
         {
-            throw new NotImplementedException();
+            var sql = new StringBuilder();
+            sql.Append($"SELECT Id, Value, Description, [Type], AccountId, UserId, MovimentId, CreatedOn, UpdatedOn");
+            sql.Append($" FROM {table} WHERE Id = @id");
+
+            await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+            connection.Open();
+            
+            var dictionary = new Dictionary<string, object>
+            {
+                {"@id", id}
+            };
+
+            var parameters = new DynamicParameters(dictionary);
+            
+            var investment = await connection.QueryFirstAsync<FS.Data.Entities.Investment>(sql.ToString(), parameters);
+
+            return InvestmentEntityToInvestmentDomainMapper.MapFrom(investment);
         }
 
         public async Task Insert(Investment entity)
         {
             var sql = new StringBuilder();
             sql.Append($"INSERT INTO {table}");
-            sql.Append(" (Id, Value, Description, [Type], AccountId, UserId, CreatedOn)");
-            sql.Append(" VALUES(@id, @value, @description, @type, @accountId, @userId, @createdOn)");
+            sql.Append(" (Id, Value, Description, [Type], AccountId, UserId, MovimentId, CreatedOn)");
+            sql.Append(" VALUES(@id, @value, @description, @type, @accountId, @userId, @movimentId, @createdOn)");
 
             await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
             connection.Open();
@@ -47,6 +63,7 @@ namespace FS.Data.Repositories
                 {"@type", entity.Type},
                 {"@accountId", entity.AccountId},
                 {"@userId", entity.UserId},
+                {"@movimentId", entity.MovimentId},
                 {"@createdOn", entity.CreatedOn},
             };
 
@@ -60,7 +77,7 @@ namespace FS.Data.Repositories
         public async Task<IEnumerable<Investment>> GetInvestmentsByAccount(Guid userId, Guid accountId, int page, int size)
         {
             var sql = new StringBuilder();
-            sql.Append($"SELECT Id, Value, Description, [Type], AccountId, UserId, CreatedOn, UpdatedOn");
+            sql.Append($"SELECT Id, Value, Description, [Type], MovimentId, AccountId, UserId, CreatedOn, UpdatedOn");
             sql.Append($" FROM {table} WHERE AccountId = @accountId AND UserId = @userId");
             sql.Append($" ORDER BY CreatedOn DESC");
             sql.Append($" OFFSET @offset ROWS FETCH NEXT @next ROWS ONLY");
@@ -81,6 +98,35 @@ namespace FS.Data.Repositories
             var investment = await connection.QueryAsync<FS.Data.Entities.Investment>(sql.ToString(), parameters);
 
             return InvestmentEntityToInvestmentDomainMapper.MapFrom(investment);
+        }
+
+        public async Task Update(Guid id, Investment entity)
+        {
+            var sql = new StringBuilder();
+            sql.Append($"UPDATE {table}");
+            sql.Append(" SET Value = @value, Description = @description, [Type] = @type, UpdatedOn = @updatedOn");
+            sql.Append(" WHERE Id = @id and AccountId = @accountId AND UserId = @userId AND MovimentId = @movimentId");
+
+            await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+            connection.Open();
+
+            var dictionary = new Dictionary<string, object>
+            {
+                {"@id", entity.Id}, 
+                {"@value", entity.Value}, 
+                {"@description", entity.Description},
+                {"@type", entity.Type},
+                {"@movimentId", entity.MovimentId},
+                {"@accountId", entity.AccountId},
+                {"@userId", entity.UserId},
+                {"@updatedOn", entity.UpdatedOn},
+            };
+
+            var parameters = new DynamicParameters(dictionary);
+            
+            await connection.ExecuteScalarAsync(sql.ToString(), parameters);
+
+            await Task.CompletedTask;
         }
     }
 }

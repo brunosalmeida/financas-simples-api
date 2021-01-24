@@ -5,7 +5,7 @@ namespace FS.Domain.Core.Interfaces
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IInvestmentRepository : IGet<Investment>, ICreate<Investment>
+    public interface IInvestmentRepository : IGet<Investment>, ICreate<Investment>, IUpdate<Investment>
     {
         Task<IEnumerable<Investment>> GetInvestmentsByAccount(Guid userId, Guid accountId, int page, int size);
     }

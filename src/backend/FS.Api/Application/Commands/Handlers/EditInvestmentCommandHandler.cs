@@ -10,13 +10,13 @@ namespace FS.Api.Application.Commands.Handlers
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class CreateInvestmentCommandHandler : IRequestHandler<CreateInvestmentCommand, Guid>
+    public class EditInvestmentCommandHandler : IRequestHandler<EditInvestmentCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IInvestmentService _investmentService;
 
-        public CreateInvestmentCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
+        public EditInvestmentCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
             IInvestmentService investmentService)
         {
             _userRepository = repository;
@@ -24,7 +24,7 @@ namespace FS.Api.Application.Commands.Handlers
             _investmentService = investmentService;
         }
 
-        public async Task<Guid> Handle(CreateInvestmentCommand command, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(EditInvestmentCommand command, CancellationToken cancellationToken)
         {
             if (await _userRepository.Get(command.UserId) is var user && user is null)
                 throw new Exception("Invalid user");
@@ -32,15 +32,8 @@ namespace FS.Api.Application.Commands.Handlers
             if (await _accountRepository.Get(command.AccountId) is var account && account is null)
                 throw new Exception("Invalid account");
 
-            var investment = new Investment(command.Value, command.Description, command.Type, command.AccountId,
-                command.UserId);
-
-            var investmentValidator = new InvestmentValidator();
-            var result = await investmentValidator.ValidateAsync(investment, default);
-
-            if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));
-
-            var balance = await _investmentService.CreateAndUpdateBalance(investment);
+            var balance = await _investmentService.UpdateInvestmentAndUpdateBalance(command.UserId, command.AccountId,
+                command.InvestmentId, command.Value, command.Description, command.Type);
 
             return balance.Id;
         }

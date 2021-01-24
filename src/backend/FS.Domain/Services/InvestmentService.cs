@@ -6,34 +6,39 @@ namespace FS.Domain.Core.Services
     using Interfaces.Services;
     using Model;
     using System;
-    using System.ComponentModel.Design;
     using System.Threading.Tasks;
     using Utils.Enums;
 
     public class InvestmentService : IInvestmentService
     {
-        private readonly IBalanceRepository _balanceRepository;
-        private readonly IMovimentRepository _movimentRepository;
         private readonly IInvestmentBalanceRepository _investmentBalanceRepository;
         private readonly IInvestmentRepository _investmentRepository;
+        private readonly ITransactionService _transactionService;
 
-        public InvestmentService(IBalanceRepository balanceRepository, IMovimentRepository movimentRepository, 
-            IInvestmentBalanceRepository investmentBalanceRepository, IInvestmentRepository investmentRepository)
+        public InvestmentService(IInvestmentBalanceRepository investmentBalanceRepository,
+            IInvestmentRepository investmentRepository,
+            ITransactionService transactionService)
         {
-            _balanceRepository = balanceRepository;
-            _movimentRepository = movimentRepository;
             _investmentBalanceRepository = investmentBalanceRepository;
             _investmentRepository = investmentRepository;
+            _transactionService = transactionService;
         }
 
 
-        public async Task<Balance> CreateOrUpdateBalance(Investment investment)
+        public async Task<Balance> CreateAndUpdateBalance(Investment investment)
         {
             try
             {
+                var moviment = new Moviment(investment.Value, investment.Description, EMovimentCategory.Investment,
+                    EMovimentType.Investment, investment.AccountId, investment.UserId);
+
+                var userBalance = await _transactionService.CreateOrUpdateBalance(moviment);
+
+                investment.SetMoviment(moviment.Id);
                 await CreateInvestment(investment);
-                
-                var userInvestmentBalance = await _investmentBalanceRepository.Get(investment.UserId, investment.AccountId);
+
+                var userInvestmentBalance =
+                    await _investmentBalanceRepository.Get(investment.UserId, investment.AccountId);
 
                 if (userInvestmentBalance is null)
                 {
@@ -42,21 +47,6 @@ namespace FS.Domain.Core.Services
 
                 userInvestmentBalance.UpdateBalance(investment.Value);
                 await UpdateInvestmentBalance(userInvestmentBalance);
-                
-                var moviment = new Moviment(investment.Value, investment.Description, EMovimentCategory.Investment,
-                    EMovimentType.Investment, investment.AccountId, investment.UserId);
-
-                await CreateMoviment(moviment);
-                
-                var userBalance = await _balanceRepository.Get(moviment.UserId, moviment.AccountId);
-
-                if (userBalance is null)
-                {
-                    return await FirstBalance(moviment.UserId, moviment.AccountId, moviment.Value);
-                }
-
-                userBalance.UpdateBalance(moviment.Value);
-                await UpdateBalance(userBalance);
 
                 return userBalance;
             }
@@ -66,35 +56,32 @@ namespace FS.Domain.Core.Services
             }
         }
 
-        private async Task<Balance> UpdateBalance(Balance balance)
+        public async Task<Balance> UpdateInvestmentAndUpdateBalance(Guid userId, Guid accountId, Guid investmentId,
+            decimal value, string description = null, EInvestmentType? type = null)
         {
-            try
-            {
-                await _balanceRepository.Update(balance.Id, balance);
+            var investment = await _investmentRepository.Get(investmentId);
+            var userBalance = await _investmentBalanceRepository.Get(userId, accountId);
 
-                return balance;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            var valueToRemove = investment.Value * -1;
+
+            investment.SetValue(value);
+
+            if (description != null) investment.SetDescription(description);
+
+            if (type != null) investment.SetInvestmentType(type.Value);
+
+            investment.SetUpdateDate();
+
+            await _investmentRepository.Update(investmentId, investment);
+
+            userBalance = await _transactionService.UpdateMovimentAndUpdateBalance(userId, accountId,
+                investment.MovimentId,
+                investment.Value,
+                investment.Description);
+
+            return userBalance;
         }
 
-        private async Task<Balance> FirstBalance(Guid userId, Guid accountId, decimal value)
-        {
-            try
-            {
-                var balance = new Balance(userId, accountId, value);
-                await _balanceRepository.Insert(balance);
-
-                return balance;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-        
         private async Task<Balance> FirstInvestmentBalance(Guid userId, Guid accountId, decimal value)
         {
             try
@@ -110,19 +97,6 @@ namespace FS.Domain.Core.Services
             }
         }
 
-        private async Task<bool> CreateMoviment(Moviment moviment)
-        {
-            try
-            {
-                await _movimentRepository.Insert(moviment);
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-        
         private async Task<bool> CreateInvestment(Investment investment)
         {
             try
@@ -135,7 +109,7 @@ namespace FS.Domain.Core.Services
                 throw e;
             }
         }
-        
+
         private async Task<Balance> UpdateInvestmentBalance(Balance balance)
         {
             try

@@ -8,6 +8,7 @@ namespace FS.Domain.Model
         public decimal Value { get; private set; }
         public string Description { get; private set; }
         public EInvestmentType Type { get; private set; }
+        public Guid MovimentId { get; private set; }
         public Guid AccountId { get; }
         public Guid UserId { get; }
 
@@ -23,20 +24,23 @@ namespace FS.Domain.Model
         }
 
         public Investment(Guid id, decimal value, string description, EInvestmentType type,
-            Guid accountId, Guid userId, DateTime createdOn, DateTime? updatedOn) 
+            Guid accountId, Guid userId, Guid movimentId, DateTime createdOn, DateTime? updatedOn) 
             : base(id, createdOn, updatedOn)
         {
             Value = value;
             Description = description;
             Type = type;
+            MovimentId = movimentId;
             AccountId = accountId;
             UserId = userId;
+            MovimentId = movimentId;
         }
-        public void SetMovimentType(EInvestmentType type)
+        public void SetInvestmentType(EInvestmentType type)
         {
             this.Type = type;
         }
         public void SetValue(decimal value) => this.Value = value;
         public void SetDescription(string description) => this.Description = description;
+        public void SetMoviment(Guid movimentId) => this.MovimentId = movimentId;
     }
 }

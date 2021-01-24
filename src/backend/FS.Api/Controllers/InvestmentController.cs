@@ -47,6 +47,26 @@ namespace FS.Api.Controllers
             return Created($"user/{userId}/account/investment/balance/{result}", new {id = result});
         }
         
+        [HttpPut("user/{userId}/account/{accountId}/investment/")]
+        public async Task<IActionResult> EditInvestment([FromRoute] Guid userId, [FromRoute] Guid accountId,
+            [FromBody] EditInvestmentRequest request)
+        {
+            var userInfo = this.GetUserInfo();
+
+            if (!userId.Equals(userInfo.UserId) || !accountId.Equals(userInfo.AccountId))
+                return BadRequest("Invalid token.");
+
+            if (request is null)
+                return BadRequest("Request is null");
+
+            var command = new EditInvestmentCommand(userInfo.UserId, userInfo.AccountId, request.Id, request.Description,
+                request.Value,request.Type);
+
+            var result = await _mediator.Send(command);
+
+            return Created($"user/{userId}/account/investment/balance/{result}", new {id = result});
+        }
+        
         [HttpGet("user/{userId}/account/{accountId}/investment")]
         public async Task<IActionResult> GetInvestment([FromRoute] Guid userId, [FromRoute] Guid accountId,
             [FromQuery] int page = 1, [FromQuery] int size = 30)

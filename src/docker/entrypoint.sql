@@ -70,6 +70,13 @@ CREATE TABLE financas_simples_db.dbo.Moviments
     CONSTRAINT PK_Moviment PRIMARY KEY (Id)
 )
 
+ALTER TABLE financas_simples_db.dbo.Moviments
+    ADD CONSTRAINT FK_Moviments_AccountId FOREIGN KEY (AccountId) REFERENCES financas_simples_db.dbo.Accounts (Id)
+GO
+ALTER TABLE financas_simples_db.dbo.Moviments
+    ADD CONSTRAINT FK_Moviments_UserId FOREIGN KEY (UserId) REFERENCES financas_simples_db.dbo.Users (Id)
+
+
 CREATE TABLE financas_simples_db.dbo.InstallmentMoviments
 (
     Id          uniqueidentifier                                  NOT NULL,
@@ -88,18 +95,35 @@ CREATE TABLE financas_simples_db.dbo.InstallmentMoviments
     CONSTRAINT PK_InstallmentMoviments PRIMARY KEY (Id)
 )
 
+ALTER TABLE financas_simples_db.dbo.InstallmentMoviments
+    ADD CONSTRAINT FK_InstallmentMoviments_AccountId FOREIGN KEY (AccountId) REFERENCES financas_simples_db.dbo.Accounts (Id)
+GO
+ALTER TABLE financas_simples_db.dbo.InstallmentMoviments
+    ADD CONSTRAINT FK_InstallmentMoviments_UserId FOREIGN KEY (UserId) REFERENCES financas_simples_db.dbo.Users (Id)
+
 CREATE TABLE financas_simples_db.dbo.InvestmentMoviments
 (
     Id          uniqueidentifier                                  NOT NULL,
     Value       decimal(18, 0)                                    NOT NULL,
     Description varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
     [Type]      int                                               NOT NULL,
+    MovimentId  uniqueidentifier 							      NOT NULL,
     AccountId   uniqueidentifier                                  NOT NULL,
     UserId      uniqueidentifier                                  NOT NULL,
     CreatedOn   datetime                                          NOT NULL,
     UpdatedOn   datetime                                          NULL,
     CONSTRAINT PK_InvestmentMoviments PRIMARY KEY (Id)
 )
+
+ALTER TABLE financas_simples_db.dbo.InvestmentMoviments
+    ADD CONSTRAINT FK_InvestmentMoviments_AccountId FOREIGN KEY (AccountId) REFERENCES financas_simples_db.dbo.Accounts (Id)
+GO
+ALTER TABLE financas_simples_db.dbo.InvestmentMoviments
+    ADD CONSTRAINT FK_InvestmentMoviments_UserId FOREIGN KEY (UserId) REFERENCES financas_simples_db.dbo.Users (Id)
+GO
+ALTER TABLE financas_simples_db.dbo.InvestmentMoviments
+    ADD CONSTRAINT FK_Moviments_MovimentId FOREIGN KEY (MovimentId) REFERENCES financas_simples_db.dbo.Moviments (Id)
+    
 
 CREATE TABLE financas_simples_db.dbo.InvestmentBalance
 (
@@ -111,3 +135,11 @@ CREATE TABLE financas_simples_db.dbo.InvestmentBalance
     UpdatedOn datetime         NULL,
     CONSTRAINT PK_InvestmentBalance PRIMARY KEY (Id)
 )
+
+ALTER TABLE financas_simples_db.dbo.InvestmentBalance
+    ADD CONSTRAINT FK_InvestmentBalance_AccountId FOREIGN KEY (AccountId) REFERENCES financas_simples_db.dbo.Accounts (Id)
+GO
+ALTER TABLE financas_simples_db.dbo.InvestmentBalance
+    ADD CONSTRAINT FK_InvestmentBalance_UserId FOREIGN KEY (UserId) REFERENCES financas_simples_db.dbo.Users (Id)
+
+
