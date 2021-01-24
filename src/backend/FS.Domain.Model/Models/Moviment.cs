@@ -26,7 +26,7 @@
         }
 
         public Moviment(Guid id, decimal value, string description, EMovimentCategory category, EMovimentType type,
-            Guid accountId, Guid userId, DateTime createdOn, DateTime? updatedOn) 
+            Guid accountId, Guid userId, DateTime createdOn, DateTime? updatedOn)
             : base(id, createdOn, updatedOn)
         {
             Value = value;
@@ -40,7 +40,7 @@
         //Ctor only for Hangfire works.
         [JsonConstructor]
         public Moviment(Guid id, decimal value, string description, EMovimentCategory category, EMovimentType type,
-            Guid accountId, Guid userId, DateTime createdOn) 
+            Guid accountId, Guid userId, DateTime createdOn)
             : base(id, createdOn, null)
         {
             Value = value;
@@ -50,7 +50,7 @@
             AccountId = accountId;
             UserId = userId;
         }
-        
+
         public void SetCategory(EMovimentCategory category) => this.Category = category;
 
         public void SetMovimentType(EMovimentType type)
@@ -60,7 +60,15 @@
             if (this.Type != EMovimentType.Credit)
                 this.Value *= -1;
         }
-        public void SetValue(decimal value) => this.Value = value;
+
+        public void SetValue(decimal value)
+        {
+            if (this.Type != EMovimentType.Credit)
+                this.Value *= -1;
+            else
+                this.Value = value;
+        }
+
         public void SetDescription(string description) => this.Description = description;
     }
 }
