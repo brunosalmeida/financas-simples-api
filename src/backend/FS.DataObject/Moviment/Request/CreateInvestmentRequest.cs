@@ -4,15 +4,12 @@ namespace FS.DataObject.Moviment.Request
     using Newtonsoft.Json.Converters;
     using Utils.Enums;
 
-    public class CreateMovimentRequest
+    public class CreateInvestmentRequest
     {
         public string Description { get; set; }
         public decimal Value { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public EMovimentCategory Category { get; set; }
-
-        [JsonConverter(typeof(StringEnumConverter))]
-        public EMovimentType Type { get; set; }
+        public EInvestmentType Type { get; set; }
     }
 }

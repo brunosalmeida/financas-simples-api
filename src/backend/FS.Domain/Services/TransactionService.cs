@@ -5,6 +5,7 @@ namespace FS.Domain.Core.Services
     using Interfaces;
     using Interfaces.Services;
     using Model;
+    using Utils.Enums;
 
     public class TransactionService : ITransactionService
     {
@@ -39,6 +40,33 @@ namespace FS.Domain.Core.Services
                 throw e;
             }
         }
+        
+        public async Task<Balance> UpdateMovimentAndUpdateBalance(Guid userId, Guid accountId, Guid movimentId,
+            decimal value, string description = null)
+        {
+            var moviment = await _movimentRepository.Get(movimentId);
+            var userBalance = await _balanceRepository.Get(userId, accountId);
+
+            var valueToRemove = moviment.Value * -1;
+
+            moviment.SetValue(value);
+            
+            if(!string.IsNullOrEmpty(description))
+                moviment.SetDescription(description);
+            
+            moviment.SetUpdateDate();
+
+            await _movimentRepository.Update(movimentId, moviment);
+
+            userBalance.UpdateBalance(valueToRemove);
+            userBalance.UpdateBalance(moviment.Value);
+            userBalance.SetUpdateDate();
+
+            await UpdateBalance(userBalance);
+
+            return userBalance;
+        }
+        
         private async Task<Balance> UpdateBalance(Balance balance)
         {
             try
