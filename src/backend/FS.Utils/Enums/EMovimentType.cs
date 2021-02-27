@@ -1,6 +1,6 @@
 namespace FS.Utils.Enums
 {
-    public enum EMovimentType
+    public enum EMovementType
     {
         Credit,
         Withdraw,

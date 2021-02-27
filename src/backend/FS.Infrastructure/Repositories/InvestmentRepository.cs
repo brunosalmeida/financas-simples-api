@@ -15,7 +15,7 @@ namespace FS.Data.Repositories
 
     public class InvestmentRepository : IInvestmentRepository
     {
-        private string table = "InvestmentMoviments";
+        private string table = "InvestmentMovements";
 
         private readonly IConfiguration _configuration;
 
@@ -27,7 +27,7 @@ namespace FS.Data.Repositories
         public async Task<Investment> Get(Guid id)
         {
             var sql = new StringBuilder();
-            sql.Append($"SELECT Id, Value, Description, [Type], AccountId, UserId, MovimentId, CreatedOn, UpdatedOn");
+            sql.Append($"SELECT Id, Value, Description, [Type], AccountId, UserId, MovementId, CreatedOn, UpdatedOn");
             sql.Append($" FROM {table} WHERE Id = @id");
 
             await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
@@ -49,8 +49,8 @@ namespace FS.Data.Repositories
         {
             var sql = new StringBuilder();
             sql.Append($"INSERT INTO {table}");
-            sql.Append(" (Id, Value, Description, [Type], AccountId, UserId, MovimentId, CreatedOn)");
-            sql.Append(" VALUES(@id, @value, @description, @type, @accountId, @userId, @movimentId, @createdOn)");
+            sql.Append(" (Id, Value, Description, [Type], AccountId, UserId, MovementId, CreatedOn)");
+            sql.Append(" VALUES(@id, @value, @description, @type, @accountId, @userId, @movementId, @createdOn)");
 
             await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
             connection.Open();
@@ -63,7 +63,7 @@ namespace FS.Data.Repositories
                 {"@type", entity.Type},
                 {"@accountId", entity.AccountId},
                 {"@userId", entity.UserId},
-                {"@movimentId", entity.MovimentId},
+                {"@movementId", entity.MovementId},
                 {"@createdOn", entity.CreatedOn},
             };
 
@@ -77,7 +77,7 @@ namespace FS.Data.Repositories
         public async Task<IEnumerable<Investment>> GetInvestmentsByAccount(Guid userId, Guid accountId, int page, int size)
         {
             var sql = new StringBuilder();
-            sql.Append($"SELECT Id, Value, Description, [Type], MovimentId, AccountId, UserId, CreatedOn, UpdatedOn");
+            sql.Append($"SELECT Id, Value, Description, [Type], MovementId, AccountId, UserId, CreatedOn, UpdatedOn");
             sql.Append($" FROM {table} WHERE AccountId = @accountId AND UserId = @userId");
             sql.Append($" ORDER BY CreatedOn DESC");
             sql.Append($" OFFSET @offset ROWS FETCH NEXT @next ROWS ONLY");
@@ -105,7 +105,7 @@ namespace FS.Data.Repositories
             var sql = new StringBuilder();
             sql.Append($"UPDATE {table}");
             sql.Append(" SET Value = @value, Description = @description, [Type] = @type, UpdatedOn = @updatedOn");
-            sql.Append(" WHERE Id = @id and AccountId = @accountId AND UserId = @userId AND MovimentId = @movimentId");
+            sql.Append(" WHERE Id = @id and AccountId = @accountId AND UserId = @userId AND MovementId = @movementId");
 
             await using var connection = new SqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
             connection.Open();
@@ -116,7 +116,7 @@ namespace FS.Data.Repositories
                 {"@value", entity.Value}, 
                 {"@description", entity.Description},
                 {"@type", entity.Type},
-                {"@movimentId", entity.MovimentId},
+                {"@movementId", entity.MovementId},
                 {"@accountId", entity.AccountId},
                 {"@userId", entity.UserId},
                 {"@updatedOn", entity.UpdatedOn},

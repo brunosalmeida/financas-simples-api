@@ -7,7 +7,7 @@ namespace FS.Domain.Model.Validators
         public AccountValidator()
         {
             RuleFor(u => u.User).SetValidator(new UserValidator());
-            RuleForEach(u => u.Expenses).SetValidator(new MovimentValidator());
+            RuleForEach(u => u.Expenses).SetValidator(new MovementValidator());
         }
     }
 }

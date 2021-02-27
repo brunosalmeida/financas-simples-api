@@ -8,7 +8,7 @@ namespace FS.Data.Entities
         public Guid AccountId { get; set; }
         public Guid UserId { get; set; }
         
-        public Guid MovimentId { get; set; }
+        public Guid MovementId { get; set; }
         public decimal Value { get; set; }
         public string Description { get; set; }
         public Account Account { get; set; }

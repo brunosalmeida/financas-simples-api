@@ -12,26 +12,26 @@ namespace FS.Api.Application.Commands.Handlers
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class CreateInstallmentMovimentCommandHandler : IRequestHandler<CreateInstallmentMovimentCommand, Guid>
+    public class CreateInstallmentMovementCommandHandler : IRequestHandler<CreateInstallmentMovementCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly ITransactionService _transactionService;
         private readonly IBackgroundJobClient _backgroundJobClient;
-        private readonly IInstallmentMovimentRepository _installmentMovimentRepository;
+        private readonly IInstallmentMovementRepository _installmentMovementRepository;
 
-        public CreateInstallmentMovimentCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
+        public CreateInstallmentMovementCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
             ITransactionService transactionService, IBackgroundJobClient backgroundJobClient,
-            IInstallmentMovimentRepository installmentMovimentRepository)
+            IInstallmentMovementRepository installmentMovementRepository)
         {
             _userRepository = repository;
             _accountRepository = accountRepository;
             _transactionService = transactionService;
             _backgroundJobClient = backgroundJobClient;
-            _installmentMovimentRepository = installmentMovimentRepository;
+            _installmentMovementRepository = installmentMovementRepository;
         }
 
-        public async Task<Guid> Handle(CreateInstallmentMovimentCommand command,
+        public async Task<Guid> Handle(CreateInstallmentMovementCommand command,
             CancellationToken cancellationToken)
         {
             if (await _userRepository.Get(command.UserId) is var user && user is null)
@@ -40,50 +40,50 @@ namespace FS.Api.Application.Commands.Handlers
             if (await _accountRepository.Get(command.AccountId) is var account && account is null)
                 throw new Exception("Invalid account");
 
-            var installmentMoviment = new InstallmentMoviment(command.Value, command.Months, command.StartMonth, command.Description,
+            var installmentMovement = new InstallmentMovement(command.Value, command.Months, command.StartMonth, command.Description,
                 command.Category, command.Type, command.AccountId,command.UserId);
 
-            var installmentMovimentValidator = new InstallmentMovimentValidator();
-            var result = await installmentMovimentValidator.ValidateAsync(installmentMoviment, default);
+            var installmentMovementValidator = new InstallmentMovementValidator();
+            var result = await installmentMovementValidator.ValidateAsync(installmentMovement, default);
 
             if (!result.IsValid) throw new Exception(String.Join(" \n ", result.Errors));
 
-            await _installmentMovimentRepository.Insert(installmentMoviment);
+            await _installmentMovementRepository.Insert(installmentMovement);
             
-            var futureMoviments = SplitIntoMoviments(installmentMoviment);
-            await this.ScheduleFutureMoviments(futureMoviments);
+            var futureMovements = SplitIntoMovements(installmentMovement);
+            await this.ScheduleFutureMovements(futureMovements);
             
-            return installmentMoviment.Id;
+            return installmentMovement.Id;
         }
 
-        private List<Moviment> SplitIntoMoviments(InstallmentMoviment installmentMoviment)
+        private List<Movement> SplitIntoMovements(InstallmentMovement installmentMovement)
         {
-            var moviments = new List<Moviment>();
+            var movements = new List<Movement>();
             var number = 1;
             
-            for (int month = (int)installmentMoviment.StartMonth; month < installmentMoviment.EndMonth ; month++)
+            for (int month = (int)installmentMovement.StartMonth; month < installmentMovement.EndMonth ; month++)
             {
-                var description = $"({number}/{installmentMoviment.Months})-Total:{installmentMoviment.Value}-{installmentMoviment.Description}";
-                var futureDate = installmentMoviment.CreatedOn.AddMonths(month);
+                var description = $"({number}/{installmentMovement.Months})-Total:{installmentMovement.Value}-{installmentMovement.Description}";
+                var futureDate = installmentMovement.CreatedOn.AddMonths(month);
                 
-                var moviment = new Moviment(installmentMoviment.InstallmentsValue, description, installmentMoviment.Category,
-                    installmentMoviment.Type, installmentMoviment.AccountId, installmentMoviment.UserId);
-                moviment.OverrideCreatedDate(futureDate);
+                var movement = new Movement(installmentMovement.InstallmentsValue, description, installmentMovement.Category,
+                    installmentMovement.Type, installmentMovement.AccountId, installmentMovement.UserId);
+                movement.OverrideCreatedDate(futureDate);
 
-                moviments.Add(moviment);
+                movements.Add(movement);
 
                 number++;
             }
             
-            return moviments;
+            return movements;
         }
 
-        private async Task ScheduleFutureMoviments(IList<Moviment> futureMoviments)
+        private async Task ScheduleFutureMovements(IList<Movement> futureMovements)
         {   
-            foreach (var moviment in futureMoviments)
+            foreach (var movement in futureMovements)
             {
-                _backgroundJobClient.Schedule( () => _transactionService.CreateOrUpdateBalance(moviment),
-                    new DateTimeOffset(moviment.CreatedOn).UtcDateTime);
+                _backgroundJobClient.Schedule( () => _transactionService.CreateOrUpdateBalance(movement),
+                    new DateTimeOffset(movement.CreatedOn).UtcDateTime);
             }
 
             await Task.CompletedTask;

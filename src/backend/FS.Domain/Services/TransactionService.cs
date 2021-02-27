@@ -10,27 +10,27 @@ namespace FS.Domain.Core.Services
     public class TransactionService : ITransactionService
     {
         private readonly IBalanceRepository _balanceRepository;
-        private readonly IMovimentRepository _movimentRepository;
+        private readonly IMovementRepository _movementRepository;
 
-        public TransactionService(IBalanceRepository balanceRepository, IMovimentRepository movimentRepository)
+        public TransactionService(IBalanceRepository balanceRepository, IMovementRepository movementRepository)
         {
             _balanceRepository = balanceRepository;
-            _movimentRepository = movimentRepository;
+            _movementRepository = movementRepository;
         }
 
-        public async Task<Balance> CreateOrUpdateBalance(Moviment moviment)
+        public async Task<Balance> CreateOrUpdateBalance(Movement movement)
         {
             try
             {
-                await CreateMoviment(moviment);
-                var userBalance = await _balanceRepository.Get(moviment.UserId, moviment.AccountId);
+                await CreateMovement(movement);
+                var userBalance = await _balanceRepository.Get(movement.UserId, movement.AccountId);
                 
                 if (userBalance is null)
                 {
-                    return await FirstBalance(moviment.UserId, moviment.AccountId, moviment.Value);
+                    return await FirstBalance(movement.UserId, movement.AccountId, movement.Value);
                 }
 
-                userBalance.UpdateBalance(moviment.Value);
+                userBalance.UpdateBalance(movement.Value);
                 await UpdateBalance(userBalance);
 
                 return userBalance;
@@ -41,25 +41,25 @@ namespace FS.Domain.Core.Services
             }
         }
         
-        public async Task<Balance> UpdateMovimentAndUpdateBalance(Guid userId, Guid accountId, Guid movimentId,
+        public async Task<Balance> UpdateMovementAndUpdateBalance(Guid userId, Guid accountId, Guid movementId,
             decimal value, string description = null)
         {
-            var moviment = await _movimentRepository.Get(movimentId);
+            var movement = await _movementRepository.Get(movementId);
             var userBalance = await _balanceRepository.Get(userId, accountId);
 
-            var valueToRemove = moviment.Value * -1;
+            var valueToRemove = movement.Value * -1;
 
-            moviment.SetValue(value);
+            movement.SetValue(value);
             
             if(!string.IsNullOrEmpty(description))
-                moviment.SetDescription(description);
+                movement.SetDescription(description);
             
-            moviment.SetUpdateDate();
+            movement.SetUpdateDate();
 
-            await _movimentRepository.Update(movimentId, moviment);
+            await _movementRepository.Update(movementId, movement);
 
             userBalance.UpdateBalance(valueToRemove);
-            userBalance.UpdateBalance(moviment.Value);
+            userBalance.UpdateBalance(movement.Value);
             userBalance.SetUpdateDate();
 
             await UpdateBalance(userBalance);
@@ -96,11 +96,11 @@ namespace FS.Domain.Core.Services
             }
         }
 
-        private async Task<bool> CreateMoviment(Moviment moviment)
+        private async Task<bool> CreateMovement(Movement movement)
         {
             try
             {
-                await _movimentRepository.Insert(moviment);
+                await _movementRepository.Insert(movement);
                 return true;
             }
             catch (Exception e)

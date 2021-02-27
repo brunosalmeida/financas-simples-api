@@ -12,7 +12,7 @@ namespace FS.DataObject.User.Request
         
         public DateTime BirthDate { get; set; }
         
-        [JsonConverter(typeof(StringEnumConverter))]
+       
         public EGender Gender { get; set; }
     }
 }

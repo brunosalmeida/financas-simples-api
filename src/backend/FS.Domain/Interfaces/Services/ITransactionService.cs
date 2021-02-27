@@ -6,9 +6,9 @@ namespace FS.Domain.Core.Interfaces.Services
 
     public interface ITransactionService
     {
-        Task<Balance> CreateOrUpdateBalance(Moviment moviment);
+        Task<Balance> CreateOrUpdateBalance(Movement movement);
 
-        Task<Balance> UpdateMovimentAndUpdateBalance(Guid userId, Guid accountId, Guid movimentId,
+        Task<Balance> UpdateMovementAndUpdateBalance(Guid userId, Guid accountId, Guid movementId,
             decimal value, string description = null);
     }
 }

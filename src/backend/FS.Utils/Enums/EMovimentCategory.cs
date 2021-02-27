@@ -1,6 +1,6 @@
 namespace FS.Utils.Enums
 {
-    public enum EMovimentCategory
+    public enum EMovementCategory
     {
         None,
         Home,

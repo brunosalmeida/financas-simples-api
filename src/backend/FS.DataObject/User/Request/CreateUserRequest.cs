@@ -11,7 +11,7 @@ namespace FS.DataObject.User.Request
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
         
-        [JsonConverter(typeof(StringEnumConverter))]
+       
         public EGender Gender { get; set; }
         public string Password { get; set; }
     }

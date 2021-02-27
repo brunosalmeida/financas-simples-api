@@ -11,13 +11,13 @@ namespace FS.Api.Application.Commands.Handlers
     using MediatR;
     using Utils.Enums;
 
-    public class CreateMovimentCommandHandler : IRequestHandler<CreateMovimentCommand, Guid>
+    public class CreateMovementCommandHandler : IRequestHandler<CreateMovementCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly ITransactionService _transactionService;
 
-        public CreateMovimentCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
+        public CreateMovementCommandHandler(IUserRepository repository, IAccountRepository accountRepository,
             ITransactionService transactionService)
         {
             _userRepository = repository;
@@ -25,7 +25,7 @@ namespace FS.Api.Application.Commands.Handlers
             _transactionService = transactionService;
         }
 
-        public async Task<Guid> Handle(CreateMovimentCommand command,
+        public async Task<Guid> Handle(CreateMovementCommand command,
             CancellationToken cancellationToken)
         {
             if (await _userRepository.Get(command.UserId) is var user && user is null)
@@ -34,15 +34,15 @@ namespace FS.Api.Application.Commands.Handlers
             if (await _accountRepository.Get(command.AccountId) is var account && account is null)
                 throw new Exception("Invalid account");
 
-            var moviment = new Moviment(command.Value, command.Description, (EMovimentCategory)command.Category,
-                (EMovimentType)command.Type, command.AccountId, command.UserId);
+            var movement = new Movement(command.Value, command.Description, (EMovementCategory)command.Category,
+                (EMovementType)command.Type, command.AccountId, command.UserId);
 
-            var movimentValidator = new MovimentValidator();
-            var result = await movimentValidator.ValidateAsync(moviment, default);
+            var movementValidator = new MovementValidator();
+            var result = await movementValidator.ValidateAsync(movement, default);
 
             if (!result.IsValid) throw new Exception(String.Join("--", result.Errors));
 
-            var balance = await _transactionService.CreateOrUpdateBalance(moviment);
+            var balance = await _transactionService.CreateOrUpdateBalance(movement);
 
             return balance.Id;
         }

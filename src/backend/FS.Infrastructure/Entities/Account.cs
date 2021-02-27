@@ -7,6 +7,6 @@ namespace FS.Data.Entities
     {
         public Guid UserId { get; set; }
         public User User { get; set; }
-        public IEnumerable<Moviment> Moviments { get; set; }
+        public IEnumerable<Movement> Movements { get; set; }
     }
 }

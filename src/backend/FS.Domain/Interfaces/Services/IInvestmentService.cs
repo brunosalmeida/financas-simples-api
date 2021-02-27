@@ -7,7 +7,7 @@ namespace FS.Domain.Core.Interfaces.Services
 
     public interface IInvestmentService
     {
-        Task<Balance> CreateAndUpdateBalance(Investment moviment);
+        Task<Balance> CreateAndUpdateBalance(Investment movement);
 
         Task<Balance> UpdateInvestmentAndUpdateBalance(Guid userId, Guid accountId, Guid investmentId,
             decimal value, string description = null, EInvestmentType? type = null);

@@ -10,17 +10,17 @@ namespace FS.Data.Repositories
     using System.Text;
     using System.Threading.Tasks;
 
-    public class InstallmentMovimentRepository : IInstallmentMovimentRepository
+    public class InstallmentMovementRepository : IInstallmentMovementRepository
     {
         private readonly IConfiguration _configuration;
 
-        public InstallmentMovimentRepository(IConfiguration configuration)
+        public InstallmentMovementRepository(IConfiguration configuration)
         {
             _configuration = configuration;
         }
         
-        private const string table = "dbo.InstallmentMoviments";
-        public async Task Insert(Domain.Model.InstallmentMoviment entity)
+        private const string table = "dbo.InstallmentMovements";
+        public async Task Insert(Domain.Model.InstallmentMovement entity)
         {
             var sql = new StringBuilder();
             sql.Append($"INSERT INTO {table}");
