@@ -1,4 +1,4 @@
-namespace FS.DataObject.Moviment.Request
+namespace FS.DataObject.Movement.Request
 {
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
@@ -11,7 +11,7 @@ namespace FS.DataObject.Moviment.Request
         public string Description { get; set; }
         public decimal Value { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
+       
         public EInvestmentType Type { get; set; }
     }
 }

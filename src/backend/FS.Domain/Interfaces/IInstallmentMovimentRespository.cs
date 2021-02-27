@@ -7,7 +7,7 @@ namespace FS.Domain.Core.Interfaces
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IInstallmentMovimentRepository : ICreate<InstallmentMoviment>
+    public interface IInstallmentMovementRepository : ICreate<InstallmentMovement>
     {
         
     }

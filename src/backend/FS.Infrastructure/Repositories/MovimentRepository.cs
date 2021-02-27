@@ -11,18 +11,18 @@ namespace FS.Data.Repositories
     using Mappings;
     using Microsoft.Extensions.Configuration;
 
-    public class MovimentRepository : IMovimentRepository
+    public class MovementRepository : IMovementRepository
     {
-        private const string table = "dbo.Moviments";
+        private const string table = "dbo.Movements";
 
         private readonly IConfiguration _configuration;
 
-        public MovimentRepository(IConfiguration configuration)
+        public MovementRepository(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public async Task<Moviment> Get(Guid id)
+        public async Task<Movement> Get(Guid id)
         {
             var sql = new StringBuilder();
             sql.Append($"SELECT Id, Value, Description, Category, [Type], AccountId, UserId, CreatedOn, UpdatedOn");
@@ -38,12 +38,12 @@ namespace FS.Data.Repositories
 
             var parameters = new DynamicParameters(dictionary);
             
-            var moviment = await connection.QueryFirstAsync<FS.Data.Entities.Moviment>(sql.ToString(), parameters);
+            var movement = await connection.QueryFirstAsync<FS.Data.Entities.Movement>(sql.ToString(), parameters);
 
-            return MovimentEntityToMovimenteDomainMapper.MapFrom(moviment);
+            return MovementEntityToMovementeDomainMapper.MapFrom(movement);
         }
 
-        public async Task<IEnumerable<Moviment>> GetMovimentsByAccount(Guid userId, Guid accountId, int page, int size)
+        public async Task<IEnumerable<Movement>> GetMovementsByAccount(Guid userId, Guid accountId, int page, int size)
         {
             var sql = new StringBuilder();
             sql.Append($"SELECT Id, Value, Description, Category, [Type], AccountId, UserId, CreatedOn, UpdatedOn");
@@ -64,12 +64,12 @@ namespace FS.Data.Repositories
 
             var parameters = new DynamicParameters(dictionary);
             
-            var moviment = await connection.QueryAsync<FS.Data.Entities.Moviment>(sql.ToString(), parameters);
+            var movement = await connection.QueryAsync<FS.Data.Entities.Movement>(sql.ToString(), parameters);
 
-            return MovimentEntityToMovimenteDomainMapper.MapFrom(moviment);
+            return MovementEntityToMovementeDomainMapper.MapFrom(movement);
         }
 
-        public async Task Insert(Moviment entity)
+        public async Task Insert(Movement entity)
         {
             var sql = new StringBuilder();
             sql.Append($"INSERT INTO {table}");
@@ -98,7 +98,7 @@ namespace FS.Data.Repositories
             await Task.CompletedTask;
         }
 
-        public async Task Update(Guid id, Moviment model)
+        public async Task Update(Guid id, Movement model)
         {
             var sql = new StringBuilder();
             sql.Append($"UPDATE {table}");

@@ -4,9 +4,9 @@ namespace FS.Api.Application.Queries.Query
 {
     using System;
 
-    public abstract class BaseGetAllMovimentQuery
+    public abstract class BaseGetAllMovementQuery
     {
-        protected BaseGetAllMovimentQuery(Guid accountId, Guid userId)
+        protected BaseGetAllMovementQuery(Guid accountId, Guid userId)
         {
             AccountId = accountId;
             UserId = userId;

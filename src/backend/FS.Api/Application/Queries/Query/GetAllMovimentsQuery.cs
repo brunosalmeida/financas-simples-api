@@ -1,13 +1,13 @@
 namespace FS.Api.Application.Queries.Query
 {
-    using DataObject.Moviment.Response;
+    using DataObject.Movement.Response;
     using MediatR;
     using System;
     using System.Collections.Generic;
 
-    public class GetAllMovimentsQuery : BaseGetAllMovimentQuery, IRequest<IEnumerable<GetAllMovimentResponse>>
+    public class GetAllMovementsQuery : BaseGetAllMovementQuery, IRequest<IEnumerable<GetAllMovementResponse>>
     {
-        public GetAllMovimentsQuery(Guid userId, Guid accountId, int page, int pageSize)
+        public GetAllMovementsQuery(Guid userId, Guid accountId, int page, int pageSize)
             : base(accountId, userId)
         {
             PageSize = pageSize;

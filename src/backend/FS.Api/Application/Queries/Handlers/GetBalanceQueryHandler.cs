@@ -24,19 +24,33 @@ namespace FS.Api.Application.Queries.Handlers
         }
         
         public async Task<GetBalanceResponse> Handle(GetBalanceQuery request, CancellationToken cancellationToken)
-        {
-            Balance balance = request.Type switch
+        {   
+            Balance general = null;
+            Balance investment = null;
+            
+            switch (request.Type)
             {
-                EBalanceType.Investment => await _investmentBalanceRepository.Get(request.UserId, request.AccountId),
-                _ => await _balanceRepository.Get(request.UserId, request.AccountId)
-            };
-
-            if (balance is null)
-                return null;
-
+                case EBalanceType.Investment:
+                     investment = await _investmentBalanceRepository.Get(request.UserId, request.AccountId);
+                    break;
+                case EBalanceType.Balance:
+                    general = await _balanceRepository.Get(request.UserId, request.AccountId);
+                    break;
+                default:
+                    general = await _balanceRepository.Get(request.UserId, request.AccountId);
+                    investment = await _investmentBalanceRepository.Get(request.UserId, request.AccountId);
+                    break;
+            }
+          
             return new GetBalanceResponse
             {
-                Id = balance.Id, AccountId = balance.AccountId, UserId = balance.UserId, Balance = balance.Value
+                AccountId =request.AccountId, 
+                UserId = request.UserId,
+                Balances = new Balances
+                {
+                    MovementBalance = general?.Value ?? 0,
+                    MovementInvestment = investment?.Value ?? 0
+                }
             };
         }
     }

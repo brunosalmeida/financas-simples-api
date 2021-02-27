@@ -3,9 +3,9 @@ namespace FS.Domain.Model
     using System;
     using Utils.Enums;
 
-    public class InstallmentMoviment : Moviment
+    public class InstallmentMovement : Movement
     {
-        public InstallmentMoviment(decimal value,  int months, EMonths startMonth, string description, EMovimentCategory category, EMovimentType type,
+        public InstallmentMovement(decimal value,  int months, EMonths startMonth, string description, EMovementCategory category, EMovementType type,
             Guid accountId, Guid userId) 
             : base(value, description, category, type, accountId, userId)
         {
@@ -13,8 +13,8 @@ namespace FS.Domain.Model
             StartMonth = startMonth;
         }
 
-        public InstallmentMoviment(Guid id, decimal value, int months, EMonths startMonth, string description, EMovimentCategory category,
-            EMovimentType type, Guid accountId, Guid userId, DateTime createdOn, DateTime? updatedOn) 
+        public InstallmentMovement(Guid id, decimal value, int months, EMonths startMonth, string description, EMovementCategory category,
+            EMovementType type, Guid accountId, Guid userId, DateTime createdOn, DateTime? updatedOn) 
             : base(id, value, description, category, type, accountId, userId, createdOn, updatedOn)
         {
             Months = months;
@@ -23,6 +23,6 @@ namespace FS.Domain.Model
         public int Months { get; }
         public EMonths StartMonth { get; }
         public int EndMonth => (int)this.StartMonth + this.Months;
-        public decimal InstallmentsValue =>  this.Type == EMovimentType.Expense ? (this.Value / this.Months) * -1 : (this.Value / this.Months);
+        public decimal InstallmentsValue =>  this.Type == EMovementType.Expense ? (this.Value / this.Months) * -1 : (this.Value / this.Months);
     }
 }

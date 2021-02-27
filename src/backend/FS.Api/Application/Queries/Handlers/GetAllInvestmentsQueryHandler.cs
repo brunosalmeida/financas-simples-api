@@ -1,6 +1,6 @@
 namespace FS.Api.Application.Queries.Handlers
 {
-    using DataObject.Moviment.Response;
+    using DataObject.Movement.Response;
     using Domain.Core.Interfaces;
     using MediatR;
     using Query;

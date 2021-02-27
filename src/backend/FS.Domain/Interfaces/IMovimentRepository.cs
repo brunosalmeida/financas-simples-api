@@ -5,8 +5,8 @@
     using System.Threading.Tasks;
     using FS.Domain.Model;
 
-    public interface IMovimentRepository : IGet<Moviment>, ICreate<Moviment>, IDelete<Moviment>, IUpdate<Moviment>
+    public interface IMovementRepository : IGet<Movement>, ICreate<Movement>, IDelete<Movement>, IUpdate<Movement>
     {
-        Task<IEnumerable<Moviment>> GetMovimentsByAccount(Guid userId, Guid accountId, int page, int size);
+        Task<IEnumerable<Movement>> GetMovementsByAccount(Guid userId, Guid accountId, int page, int size);
     }
 }

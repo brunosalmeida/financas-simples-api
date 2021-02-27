@@ -6,9 +6,9 @@ namespace FS.Api.Application.Commands.Command
     using Newtonsoft.Json.Converters;
     using Utils.Enums;
 
-    public class CreateMovimentCommand : IRequest<Guid>
+    public class CreateMovementCommand : IRequest<Guid>
     {
-        public CreateMovimentCommand(Guid userId, Guid accountId, string description, decimal value, EMovimentCategory category, EMovimentType type)
+        public CreateMovementCommand(Guid userId, Guid accountId, string description, decimal value, EMovementCategory category, EMovementType type)
         {
             UserId = userId;
             AccountId = accountId;
@@ -23,10 +23,10 @@ namespace FS.Api.Application.Commands.Command
         public string Description { get; }
         public decimal Value { get; }
         
-        [JsonConverter(typeof(StringEnumConverter))]
-        public EMovimentCategory Category { get; }
+       
+        public EMovementCategory Category { get; }
         
-        [JsonConverter(typeof(StringEnumConverter))]
-        public EMovimentType Type { get; }
+       
+        public EMovementType Type { get; }
     }
 }

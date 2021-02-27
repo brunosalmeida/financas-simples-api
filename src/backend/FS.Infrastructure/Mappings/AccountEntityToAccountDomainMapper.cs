@@ -12,7 +12,7 @@ namespace FS.Data.Mappings
                 (
                  entity.Id,
                  UserEntityToUserDomainMapper.MapFrom(entity.User),
-                 MovimentEntityToMovimenteDomainMapper.MapFrom(entity.Moviments),
+                 MovementEntityToMovementeDomainMapper.MapFrom(entity.Movements),
                  entity.CreatedOn,
                  entity.UpdatedOn.GetValueOrDefault()
                 );

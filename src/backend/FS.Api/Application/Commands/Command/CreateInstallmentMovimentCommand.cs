@@ -8,10 +8,10 @@ namespace FS.Api.Application.Commands.Command
     using System;
     using Utils.Enums;
 
-    public class CreateInstallmentMovimentCommand : IRequest<Guid>
+    public class CreateInstallmentMovementCommand : IRequest<Guid>
     {
-        public CreateInstallmentMovimentCommand(Guid userId, Guid accountId, string description, 
-            decimal value, int months, EMonths startMonth, EMovimentCategory category, EMovimentType type)
+        public CreateInstallmentMovementCommand(Guid userId, Guid accountId, string description, 
+            decimal value, int months, EMonths startMonth, EMovementCategory category, EMovementType type)
         {
             UserId = userId;
             AccountId = accountId;
@@ -31,10 +31,10 @@ namespace FS.Api.Application.Commands.Command
         
         public EMonths StartMonth { get; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public EMovimentCategory Category { get; }
+       
+        public EMovementCategory Category { get; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public EMovimentType Type { get; }
+       
+        public EMovementType Type { get; }
     }
 }

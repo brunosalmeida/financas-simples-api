@@ -120,13 +120,13 @@ namespace FS.Api
 
             services.AddTransient<IValidator<User>, UserValidator>();
             services.AddTransient<IValidator<Account>, AccountValidator>();
-            services.AddTransient<IValidator<Moviment>, MovimentValidator>();
+            services.AddTransient<IValidator<Movement>, MovementValidator>();
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
-            services.AddTransient<IMovimentRepository, MovimentRepository>();
+            services.AddTransient<IMovementRepository, MovementRepository>();
             services.AddTransient<IBalanceRepository, BalanceRepository>();
-            services.AddTransient<IInstallmentMovimentRepository, InstallmentMovimentRepository>();
+            services.AddTransient<IInstallmentMovementRepository, InstallmentMovementRepository>();
             services.AddTransient<IInvestmentRepository, InvestmentRepository>();
             services.AddTransient<IInvestmentBalanceRepository, InvestmentBalanceRepository>();
 

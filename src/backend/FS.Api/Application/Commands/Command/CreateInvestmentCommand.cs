@@ -25,7 +25,7 @@ namespace FS.Api.Application.Commands.Command
         public string Description { get; }
         public decimal Value { get; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
+       
         public EInvestmentType Type { get; }
     }
 }

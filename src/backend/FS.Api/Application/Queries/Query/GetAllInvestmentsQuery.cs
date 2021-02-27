@@ -1,6 +1,6 @@
 namespace FS.Api.Application.Queries.Query
 {
-    using DataObject.Moviment.Response;
+    using DataObject.Movement.Response;
     using MediatR;
     using System;
     using System.Collections.Generic;

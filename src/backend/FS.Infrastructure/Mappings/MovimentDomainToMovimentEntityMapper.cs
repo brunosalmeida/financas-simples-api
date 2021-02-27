@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace FS.Data.Mappings
 {
-    public static class MovimentDomainToMovimentEntityMapper
+    public static class MovementDomainToMovementEntityMapper
     {
-        public static Moviment MapFrom(FS.Domain.Model.Moviment model)
+        public static Movement MapFrom(FS.Domain.Model.Movement model)
         {
             if (model is null) return null;
 
-            return new Moviment()
+            return new Movement()
             {
                 Id = model.Id,
                 Value = model.Value,
@@ -23,9 +23,9 @@ namespace FS.Data.Mappings
             };
         }
 
-        public static IList<Moviment> MapFrom(IEnumerable<FS.Domain.Model.Moviment> models)
+        public static IList<Movement> MapFrom(IEnumerable<FS.Domain.Model.Movement> models)
         {
-            return models?.Select(m => new Moviment()
+            return models?.Select(m => new Movement()
             {
                 Id = m.Id,
                 Value = m.Value,

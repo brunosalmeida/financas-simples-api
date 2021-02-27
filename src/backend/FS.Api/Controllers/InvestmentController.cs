@@ -4,7 +4,7 @@ namespace FS.Api.Controllers
 {
     using Application.Commands.Command;
     using Application.Queries.Query;
-    using DataObject.Moviment.Request;
+    using DataObject.Movement.Request;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

@@ -29,12 +29,12 @@ namespace FS.Domain.Core.Services
         {
             try
             {
-                var moviment = new Moviment(investment.Value, investment.Description, EMovimentCategory.Investment,
-                    EMovimentType.Investment, investment.AccountId, investment.UserId);
+                var movement = new Movement(investment.Value, investment.Description, EMovementCategory.Investment,
+                    EMovementType.Investment, investment.AccountId, investment.UserId);
 
-                var userBalance = await _transactionService.CreateOrUpdateBalance(moviment);
+                var userBalance = await _transactionService.CreateOrUpdateBalance(movement);
 
-                investment.SetMoviment(moviment.Id);
+                investment.SetMovement(movement.Id);
                 await CreateInvestment(investment);
 
                 var userInvestmentBalance =
@@ -74,8 +74,8 @@ namespace FS.Domain.Core.Services
 
             await _investmentRepository.Update(investmentId, investment);
 
-            userBalance = await _transactionService.UpdateMovimentAndUpdateBalance(userId, accountId,
-                investment.MovimentId,
+            userBalance = await _transactionService.UpdateMovementAndUpdateBalance(userId, accountId,
+                investment.MovementId,
                 investment.Value,
                 investment.Description);
 

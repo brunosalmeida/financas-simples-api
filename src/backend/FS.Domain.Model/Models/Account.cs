@@ -10,10 +10,10 @@ namespace FS.Domain.Model
            : base()
         {
             User = user;
-            Expenses = new List<Moviment>().AsEnumerable();
+            Expenses = new List<Movement>().AsEnumerable();
         }
 
-        public Account(Guid id, User user, IEnumerable<Moviment> expenses, DateTime createdOn, DateTime? updatedOn)
+        public Account(Guid id, User user, IEnumerable<Movement> expenses, DateTime createdOn, DateTime? updatedOn)
             : base(id, createdOn, updatedOn)
         {
             User = user;
@@ -21,14 +21,14 @@ namespace FS.Domain.Model
         }
 
         public User User { get; private set; }
-        public IEnumerable<Moviment> Expenses { get; private set; }
+        public IEnumerable<Movement> Expenses { get; private set; }
 
         public decimal GetBalance()
         {
             return this.Expenses.Sum(e => e.Value);
         }
 
-        public void SetExpense(Moviment expense)
+        public void SetExpense(Movement expense)
         {
             var expenses = this.Expenses.ToList();
             expenses.Add(expense);

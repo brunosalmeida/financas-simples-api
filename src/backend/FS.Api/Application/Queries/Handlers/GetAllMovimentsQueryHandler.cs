@@ -1,6 +1,6 @@
 namespace FS.Api.Application.Queries.Handlers
 {
-    using DataObject.Moviment.Response;
+    using DataObject.Movement.Response;
     using Domain.Core.Interfaces;
     using MediatR;
     using Query;
@@ -9,25 +9,25 @@ namespace FS.Api.Application.Queries.Handlers
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class GetAllMovimentsQueryHandler : IRequestHandler<GetAllMovimentsQuery, IEnumerable<GetAllMovimentResponse>>
+    public class GetAllMovementsQueryHandler : IRequestHandler<GetAllMovementsQuery, IEnumerable<GetAllMovementResponse>>
     {
-        private readonly IMovimentRepository _movimentRepository;
+        private readonly IMovementRepository _movementRepository;
 
-        public GetAllMovimentsQueryHandler(IMovimentRepository movimentRepository)
+        public GetAllMovementsQueryHandler(IMovementRepository movementRepository)
         {
-            _movimentRepository = movimentRepository;
+            _movementRepository = movementRepository;
         }
 
-        public async Task<IEnumerable<GetAllMovimentResponse>> Handle(GetAllMovimentsQuery request,
+        public async Task<IEnumerable<GetAllMovementResponse>> Handle(GetAllMovementsQuery request,
             CancellationToken cancellationToken)
         {
-            var moviments = await _movimentRepository.GetMovimentsByAccount(request.UserId,
+            var movements = await _movementRepository.GetMovementsByAccount(request.UserId,
                 request.AccountId, request.Page, request.PageSize);
 
-            if (moviments is null || !moviments.Any())
-                return Enumerable.Empty<GetAllMovimentResponse>();
+            if (movements is null || !movements.Any())
+                return Enumerable.Empty<GetAllMovementResponse>();
 
-            return moviments.Select(m => new GetAllMovimentResponse
+            return movements.Select(m => new GetAllMovementResponse
             {
                 Id = m.Id,
                 Value = m.Value,

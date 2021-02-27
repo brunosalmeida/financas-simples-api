@@ -1,4 +1,4 @@
-namespace FS.DataObject.Moviment.Response
+namespace FS.DataObject.Movement.Response
 {
     using System;
     using Utils.Enums;

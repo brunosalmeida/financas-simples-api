@@ -6,12 +6,16 @@ namespace FS.DataObject.Balance
 
     public class GetBalanceResponse
     {
-        public Guid Id { get; set; }
-
-        public Guid AccountId { get; set; }
+        public Guid AccountId { get; set; } 
 
         public Guid UserId { get; set; }
 
-        public Decimal Balance { get; set; }
+        public Balances Balances { get; set; }
+    }
+
+    public class Balances
+    {
+        public decimal MovementBalance { get; set; }
+        public decimal MovementInvestment { get; set; }
     }
 }

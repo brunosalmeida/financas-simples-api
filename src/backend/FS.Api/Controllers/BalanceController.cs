@@ -39,22 +39,5 @@ namespace FS.Api.Controllers
             
             return Ok(result);
         }
-        
-        [HttpGet("user/{userId}/account/investment/balance")]
-        public async Task<ActionResult> GetInvestmentBalance(Guid userId, EBalanceType type)
-        {
-            var userInfo = this.GetUserInfo();
-
-            if (!userId.Equals(userInfo.UserId))
-                return BadRequest("Invalid token.");
-           
-            var command = new GetBalanceQuery(userInfo.UserId, userInfo.AccountId, type);
-
-            var result = await _mediator.Send(command);
-
-            if (result is null) return BadRequest("No investment balance found");
-            
-            return Ok(result);
-        }
     }
 }
